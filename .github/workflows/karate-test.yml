@@ -6,6 +6,18 @@ on:
   push:
     branches: [ main, develop ]
   workflow_dispatch:  # Enables manual trigger
+  schedule:
+    - cron: '0 0 * * 0'  # Ejecutar cada domingo a medianoche
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
   test:
@@ -31,13 +43,18 @@ jobs:
           path: target/karate-reports
           retention-days: 30
           
-      - name: Deploy to GitHub Pages
-        if: success() && github.ref == 'refs/heads/main'
-        uses: peaceiris/actions-gh-pages@v3
+      # Setup Pages
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      # Upload artifact
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: target/karate-reports
-          enable_jekyll: false
-          keep_files: false
-          full_commit_message: 'docs: update test reports'
-          force_orphan: true # Esto creará la rama gh-pages si no existe
+          path: 'target/karate-reports'
+
+      # Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages
+        id: deployment
+        if: github.ref == 'refs/heads/main'
+        uses: actions/deploy-pages@v3
