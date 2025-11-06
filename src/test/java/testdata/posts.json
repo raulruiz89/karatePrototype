@@ -1,0 +1,14 @@
+[
+  {
+    "createPost": {
+      "userId": 1,
+      "title": "Test Post Title",
+      "body": "This is a test post body with detailed content for testing purposes."
+    },
+    "updatePost": {
+      "userId": 1,
+      "title": "Updated Post Title",
+      "body": "This is an updated post body for testing update functionality."
+    }
+  }
+]

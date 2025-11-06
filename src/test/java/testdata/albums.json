@@ -1,0 +1,16 @@
+{
+  "testData": [
+    {
+      "createAlbum": {
+        "userId": 1,
+        "id": 1,
+        "title": "New Album Title"
+      },
+      "updateAlbum": {
+        "userId": 1,
+        "id": 1,
+        "title": "Updated Album Title"
+      }
+    }
+  ]
+}

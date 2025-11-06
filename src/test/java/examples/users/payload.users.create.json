@@ -1,0 +1,41 @@
+[
+{
+  "createUser":[
+    {
+        "name": "Efrain",
+        "username": "testuser",
+        "email": "test@user.com",
+        "address": {
+    "street": "Hoeger Mall",
+    "suite": "Apt. 692",
+    "city": "South Elvis",
+    "zipcode": "53919-4257",
+    "geo": {
+      "lat": "29.4572",
+      "lng": "-164.2990"
+    }
+}
+},
+{
+        "name": "Danilo",
+        "username": "testuser",
+        "email": "test@user.com",
+        "address": {
+    "street": "Hoeger Mall",
+    "suite": "Apt. 692",
+    "city": "South Elvis",
+    "zipcode": "53919-4257",
+    "geo": {
+      "lat": "29.4572",
+      "lng": "-164.2990"
+    }
+}
+}
+  ],
+"updateUser":{
+   "name": "Test User",
+        "username": "testuser",
+        "email": "test@user.com"
+}
+}
+]

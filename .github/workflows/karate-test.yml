@@ -1,0 +1,43 @@
+name: Karate Tests
+
+on:
+  pull_request:
+    branches: [ main, develop ]
+  push:
+    branches: [ main, develop ]
+  workflow_dispatch:  # Enables manual trigger
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up JDK 21
+        uses: actions/setup-java@v3
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: 'maven'
+          
+      - name: Run Tests
+        run: mvn clean test
+        
+      - name: Upload Karate Reports
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: karate-reports
+          path: target/karate-reports
+          retention-days: 30
+          
+      - name: Deploy to GitHub Pages
+        if: success() && github.ref == 'refs/heads/main'
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: target/karate-reports
+          enable_jekyll: false
+          keep_files: false
+          full_commit_message: 'docs: update test reports'
+          force_orphan: true # Esto creará la rama gh-pages si no existe

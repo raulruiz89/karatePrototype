@@ -1,0 +1,16 @@
+[
+  {
+    "createComment": {
+      "postId": 1,
+      "name": "Test Comment",
+      "email": "test@example.com",
+      "body": "This is a test comment for testing purposes."
+    },
+    "updateComment": {
+      "postId": 1,
+      "name": "Updated Comment",
+      "email": "updated@example.com",
+      "body": "This is an updated comment for testing update functionality."
+    }
+  }
+]
