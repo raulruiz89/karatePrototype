@@ -35,13 +35,9 @@ jobs:
       - name: Run Tests
         run: mvn clean test
         
-      - name: Upload Karate Reports
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: karate-reports
-          path: target/karate-reports
-          retention-days: 30
+      # (removed) Upload Karate Reports via actions/upload-artifact
+      # We rely on the pages actions to publish reports directly. Removing this avoids any
+      # indirect dependency on deprecated artifact action versions.
           
       # Setup Pages
       - name: Setup Pages
