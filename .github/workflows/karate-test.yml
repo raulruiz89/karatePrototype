@@ -1,17 +1,17 @@
 name: Karate Tests
 
 on:
-  pull_request:
-    branches: [ main, develop ]
   push:
     branches: [ main, develop ]
-    # Evita retriggers por commits de reports
+    # evita bucles cuando el propio workflow sube docs/
     paths-ignore:
       - 'docs/**'
       - 'target/**'
+  pull_request:
+    branches: [ main, develop ]
   workflow_dispatch:
   schedule:
-    - cron: '0 0 * * 0'  # domingo 00:00 UTC
+    - cron: '0 0 * * 0'
 
 permissions:
   contents: write
