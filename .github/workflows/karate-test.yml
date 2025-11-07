@@ -5,21 +5,18 @@ on:
     branches: [ main, develop ]
   push:
     branches: [ main, develop ]
-    # Prevent workflow retriggering when reports (docs/) are updated by this workflow
+    # Evita retriggers por commits de reports
     paths-ignore:
       - 'docs/**'
-      - 'docs/*'
       - 'target/**'
-  workflow_dispatch:  # Enables manual trigger
+  workflow_dispatch:
   schedule:
-    - cron: '0 0 * * 0'  # Ejecutar cada domingo a medianoche
+    - cron: '0 0 * * 0'  # domingo 00:00 UTC
 
 permissions:
   contents: write
-  pages: write
-  id-token: write
 
-# Allow only one concurrent deployment
+# Un solo deployment a la vez (por seguridad)
 concurrency:
   group: "pages"
   cancel-in-progress: false
@@ -27,55 +24,84 @@ concurrency:
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      BRANCH_NAME: ${{ github.ref_name }}
+      RUN_ID: ${{ github.run_number }}
+      REPORTS_SUBDIR: reports/${{ github.ref_name }}
+      RUN_DIR: run-${{ github.run_number }}
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout current branch
+        uses: actions/checkout@v4
         with:
-          # needed so we can push changes back to the same branch
           fetch-depth: 0
           persist-credentials: true
-      
+
       - name: Set up JDK 21
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           java-version: '21'
           distribution: 'temurin'
           cache: 'maven'
-          
-      - name: Run Tests
-        run: mvn clean test
 
-      # Publish reports inside the same branch (docs/ directory)
-      - name: Prepare docs folder with Karate reports
-        if: always()
+      - name: Run tests
+        run: mvn -q -DskipTests=false clean test
+
+      - name: Ensure build produced Karate reports
+        id: have_reports
         run: |
-          set -e
-          echo "Preparing docs/karate-reports from target/karate-reports..."
-          BRANCH=${GITHUB_REF##*/}
-          echo "Running on branch: $BRANCH"
           if [ ! -d target/karate-reports ]; then
-            echo "No reports found at target/karate-reports — skipping docs update"
-            exit 0
-          fi
-          mkdir -p docs/karate-reports
-          rm -rf docs/karate-reports/* || true
-          cp -r target/karate-reports/* docs/karate-reports/
-          # copy custom index if present
-          if [ -f src/test/resources/index.html ]; then
-            cp src/test/resources/index.html docs/index.html
+            echo "found=false" >> "$GITHUB_OUTPUT"
+            echo "No Karate reports found, skipping publication."
+          else
+            echo "found=true" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Create or update PR with docs (safer for protected branches)
-        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop'
-        uses: peter-evans/create-pull-request@v5
+      - name: Prepare reports payload
+        if: steps.have_reports.outputs.found == 'true'
+        run: |
+          mkdir -p payload/${REPORTS_SUBDIR}/${RUN_DIR}
+          cp -r target/karate-reports/* "payload/${REPORTS_SUBDIR}/${RUN_DIR}/"
+          # alias "latest" para la rama
+          rm -rf "payload/${REPORTS_SUBDIR}/latest" || true
+          mkdir -p "payload/${REPORTS_SUBDIR}"
+          cp -r target/karate-reports "payload/${REPORTS_SUBDIR}/latest"
+          # índice simple por rama
+          mkdir -p payload
+          cat > payload/index.html <<'HTML'
+          <!doctype html><meta charset="utf-8">
+          <title>Karate Reports</title>
+          <h1>Karate Reports</h1>
+          <ul>
+            <li><a href="./reports/main/latest/karate-summary.html">main / latest</a></li>
+            <li><a href="./reports/develop/latest/karate-summary.html">develop / latest</a></li>
+          </ul>
+          <p>Runs:</p>
+          <ul>
+            <li><a href="./reports/main/">main runs</a></li>
+            <li><a href="./reports/develop/">develop runs</a></li>
+          </ul>
+          HTML
+          touch payload/.nojekyll
+
+      # Publica en main/docs SIN PR
+      - name: Checkout main (target pages branch) to pages/
+        if: steps.have_reports.outputs.found == 'true'
+        uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: "chore(reports): update Karate reports [skip ci]"
-          committer: "GitHub <noreply@github.com>"
-          author: "github-actions[bot] <github-actions[bot]@users.noreply.github.com>"
-          branch: "reports/${{ github.run_id }}"
-          title: "chore(reports): update Karate reports"
-          body: |
-            This PR updates the generated Karate test reports in `docs/`.
-            It was created automatically by the CI workflow.
-          labels: automated, reports
-          base: ${{ github.ref_name }}
+          ref: main
+          path: pages
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Update main/docs with reports
+        if: steps.have_reports.outputs.found == 'true'
+        run: |
+          mkdir -p pages/docs
+          # Fusiona payload → docs manteniendo histórico por rama/run
+          rsync -a payload/ pages/docs/
+          cd pages
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs
+          git commit -m "chore(reports): publish ${BRANCH_NAME} -> docs/${REPORTS_SUBDIR}/${RUN_DIR} [skip ci]" || echo "No changes to commit"
+          git push origin main

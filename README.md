@@ -112,16 +112,27 @@ Available tags:
 - @delete
 
 ## 📊 Test Reports
-After test execution, reports can be found in:
 
-### Local Reports
-- HTML reports: `target/karate-reports/karate-summary.html`
-- JSON reports: `target/karate-reports/karate-summary-json.txt`
-- Timeline view: `target/karate-reports/karate-timeline.html`
+### Local
+- HTML: `target/karate-reports/karate-summary.html`
+- JSON: `target/karate-reports/karate-summary-json.txt`
+- Timeline: `target/karate-reports/karate-timeline.html`
 
-### GitHub Pages Reports
-Los reportes de pruebas automáticas se publican en GitHub Pages después de cada ejecución exitosa en la rama main:
-- 🌐 [Ver Reportes en GitHub Pages](https://raulruiz89.github.io/karatePrototype)
+### GitHub Pages
+El pipeline publica SIEMPRE en `main/docs` (sin PR) y separa por rama y por ejecución:
+
+- Latest por rama:
+  - `docs/reports/main/latest/…`
+  - `docs/reports/develop/latest/…`
+- Históricos:
+  - `docs/reports/main/run-<N>/…`
+  - `docs/reports/develop/run-<N>/…`
+
+Página de entrada:
+- https://raulruiz89.github.io/karatePrototype  
+  (sirve `main/docs`, configurado en Settings → Pages → Deploy from a branch → `main` / `docs`)
+
+El workflow corre en `main` y `develop`. Si corre en `develop`, el job hace commit directo en `main/docs` para que GitHub Pages lo publique.
 
 ### GitHub Actions
 Los tests se ejecutan automáticamente en los siguientes casos:
