@@ -5,12 +5,17 @@ on:
     branches: [ main, develop ]
   push:
     branches: [ main, develop ]
+    # Prevent workflow retriggering when reports (docs/) are updated by this workflow
+    paths-ignore:
+      - 'docs/**'
+      - 'docs/*'
+      - 'target/**'
   workflow_dispatch:  # Enables manual trigger
   schedule:
     - cron: '0 0 * * 0'  # Ejecutar cada domingo a medianoche
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -24,6 +29,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # needed so we can push changes back to the same branch
+          fetch-depth: 0
+          persist-credentials: true
       
       - name: Set up JDK 21
         uses: actions/setup-java@v3
@@ -34,23 +43,42 @@ jobs:
           
       - name: Run Tests
         run: mvn clean test
-        
-      # (removed) Upload Karate Reports via actions/upload-artifact
-      # We rely on the pages actions to publish reports directly. Removing this avoids any
-      # indirect dependency on deprecated artifact action versions.
-          
-      # Setup Pages
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
 
-      # Upload artifact
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v2
-        with:
-          path: 'target/karate-reports'
+      # Publish reports inside the same branch (docs/ directory)
+      - name: Prepare docs folder with Karate reports
+        if: always()
+        run: |
+          set -e
+          echo "Preparing docs/karate-reports from target/karate-reports..."
+          BRANCH=${GITHUB_REF##*/}
+          echo "Running on branch: $BRANCH"
+          if [ ! -d target/karate-reports ]; then
+            echo "No reports found at target/karate-reports — skipping docs update"
+            exit 0
+          fi
+          mkdir -p docs/karate-reports
+          rm -rf docs/karate-reports/* || true
+          cp -r target/karate-reports/* docs/karate-reports/
+          # copy custom index if present
+          if [ -f src/test/resources/index.html ]; then
+            cp src/test/resources/index.html docs/index.html
+          fi
 
-      # Deploy to GitHub Pages
-      - name: Deploy to GitHub Pages
-        id: deployment
-        if: github.ref == 'refs/heads/main'
-        uses: actions/deploy-pages@v3
+      - name: Commit and push docs to current branch
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -e
+          BRANCH=${GITHUB_REF##*/}
+          echo "Pushing docs to branch: $BRANCH"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs || true
+          if git diff --staged --quiet; then
+            echo "No changes to docs to commit"
+            exit 0
+          fi
+          git commit -m "chore(reports): update Karate reports [skip ci]"
+          # push using GITHUB_TOKEN
+          git push "https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}" HEAD:$BRANCH
