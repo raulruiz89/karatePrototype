@@ -64,21 +64,18 @@ jobs:
             cp src/test/resources/index.html docs/index.html
           fi
 
-      - name: Commit and push docs to current branch
+      - name: Create or update PR with docs (safer for protected branches)
         if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          set -e
-          BRANCH=${GITHUB_REF##*/}
-          echo "Pushing docs to branch: $BRANCH"
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add docs || true
-          if git diff --staged --quiet; then
-            echo "No changes to docs to commit"
-            exit 0
-          fi
-          git commit -m "chore(reports): update Karate reports [skip ci]"
-          # push using GITHUB_TOKEN
-          git push "https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}" HEAD:$BRANCH
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore(reports): update Karate reports [skip ci]"
+          committer: "GitHub <noreply@github.com>"
+          author: "github-actions[bot] <github-actions[bot]@users.noreply.github.com>"
+          branch: "reports/${{ github.run_id }}"
+          title: "chore(reports): update Karate reports"
+          body: |
+            This PR updates the generated Karate test reports in `docs/`.
+            It was created automatically by the CI workflow.
+          labels: automated, reports
+          base: ${{ github.ref_name }}
