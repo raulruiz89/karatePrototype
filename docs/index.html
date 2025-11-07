@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Karate API Test Reports</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .report-card {
+            transition: transform 0.2s;
+        }
+        .report-card:hover {
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container">
+            <span class="navbar-brand mb-0 h1">Karate API Test Reports</span>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="alert alert-info">
+                    <h4 class="alert-heading">📊 Test Reports Dashboard</h4>
+                    <p>Welcome to the Karate API Testing Reports Dashboard. Here you can find detailed reports for all API test executions.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card report-card">
+                    <div class="card-body">
+                        <h5 class="card-title">📑 Summary Report</h5>
+                        <p class="card-text">Complete overview of all test executions</p>
+                        <a href="karate-summary.html" class="btn btn-primary">View Summary</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card report-card">
+                    <div class="card-body">
+                        <h5 class="card-title">🏷️ Tags Report</h5>
+                        <p class="card-text">Test results organized by tags</p>
+                        <a href="karate-tags.html" class="btn btn-primary">View Tags</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card report-card">
+                    <div class="card-body">
+                        <h5 class="card-title">⏱️ Timeline</h5>
+                        <p class="card-text">Test execution timeline view</p>
+                        <a href="karate-timeline.html" class="btn btn-primary">View Timeline</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Feature Reports</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="list-group">
+                            <a href="examples.users.users.html" class="list-group-item list-group-item-action">👤 Users API Tests</a>
+                            <a href="examples.posts.posts.html" class="list-group-item list-group-item-action">📝 Posts API Tests</a>
+                            <a href="examples.comments.comments.html" class="list-group-item list-group-item-action">💬 Comments API Tests</a>
+                            <a href="examples.albums.albums.html" class="list-group-item list-group-item-action">📁 Albums API Tests</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="mt-5 pb-3 text-center text-muted">
+            <p>Last updated: <span id="lastUpdate"></span></p>
+            <script>
+                document.getElementById('lastUpdate').textContent = new Date().toLocaleString();
+            </script>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
