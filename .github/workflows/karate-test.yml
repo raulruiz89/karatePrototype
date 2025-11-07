@@ -3,10 +3,6 @@ name: Karate Tests
 on:
   push:
     branches: [ main, develop ]
-    # evita bucles cuando el propio workflow sube docs/
-    paths-ignore:
-      - 'docs/**'
-      - 'target/**'
   pull_request:
     branches: [ main, develop ]
   workflow_dispatch:
@@ -16,19 +12,21 @@ on:
 permissions:
   contents: write
 
-# Un solo deployment a la vez (por seguridad)
 concurrency:
   group: "pages"
   cancel-in-progress: false
 
 jobs:
   test:
+    # Evita loop: si el commit lo hace el bot, no corras
+    if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     env:
       BRANCH_NAME: ${{ github.ref_name }}
       RUN_ID: ${{ github.run_number }}
       REPORTS_SUBDIR: reports/${{ github.ref_name }}
       RUN_DIR: run-${{ github.run_number }}
+
     steps:
       - name: Checkout current branch
         uses: actions/checkout@v4
@@ -61,12 +59,9 @@ jobs:
         run: |
           mkdir -p payload/${REPORTS_SUBDIR}/${RUN_DIR}
           cp -r target/karate-reports/* "payload/${REPORTS_SUBDIR}/${RUN_DIR}/"
-          # alias "latest" para la rama
           rm -rf "payload/${REPORTS_SUBDIR}/latest" || true
           mkdir -p "payload/${REPORTS_SUBDIR}"
           cp -r target/karate-reports "payload/${REPORTS_SUBDIR}/latest"
-          # índice simple por rama
-          mkdir -p payload
           cat > payload/index.html <<'HTML'
           <!doctype html><meta charset="utf-8">
           <title>Karate Reports</title>
@@ -83,8 +78,8 @@ jobs:
           HTML
           touch payload/.nojekyll
 
-      # Publica en main/docs SIN PR
-      - name: Checkout main (target pages branch) to pages/
+      # Publicar en main/docs (Pages)
+      - name: Checkout main (pages target) into pages/
         if: steps.have_reports.outputs.found == 'true'
         uses: actions/checkout@v4
         with:
@@ -97,7 +92,6 @@ jobs:
         if: steps.have_reports.outputs.found == 'true'
         run: |
           mkdir -p pages/docs
-          # Fusiona payload → docs manteniendo histórico por rama/run
           rsync -a payload/ pages/docs/
           cd pages
           git config user.name "github-actions[bot]"
@@ -105,3 +99,22 @@ jobs:
           git add docs
           git commit -m "chore(reports): publish ${BRANCH_NAME} -> docs/${REPORTS_SUBDIR}/${RUN_DIR} [skip ci]" || echo "No changes to commit"
           git push origin main
+
+      # Crear rama por ejecución con los reportes (para historial navegable en GitHub)
+      - name: Create per-run reports branch
+        if: steps.have_reports.outputs.found == 'true'
+        run: |
+          cd pages
+          git switch --orphan "reports/${BRANCH_NAME}/run-${RUN_ID}"
+          git rm -rf . || true
+          cp -r ../payload/* ./
+          git add .
+          git commit -m "reports: ${BRANCH_NAME} run ${RUN_ID}"
+          git push origin "reports/${BRANCH_NAME}/run-${RUN_ID}"
+          git switch main
+
+      - name: Output useful links
+        if: steps.have_reports.outputs.found == 'true'
+        run: |
+          echo "::notice title=Pages URL::https://raulruiz89.github.io/karatePrototype/${{ env.REPORTS_SUBDIR }}/latest/karate-summary.html"
+          echo "::notice title=Run branch::https://github.com/raulruiz89/karatePrototype/tree/reports/${{ env.BRANCH_NAME }}/run-${{ env.RUN_ID }}"
