@@ -102,19 +102,6 @@ jobs:
           git commit -m "chore(reports): publish ${BRANCH_NAME} -> docs/${REPORTS_SUBDIR}/${RUN_DIR} [skip ci]" || echo "No changes to commit"
           git push origin main
 
-      # Create a per-run branch with the exact report snapshot (navigable in GitHub)
-      - name: Create per-run reports branch
-        if: steps.have_reports.outputs.found == 'true'
-        run: |
-          cd pages
-          git switch --orphan "reports/${BRANCH_NAME}/run-${RUN_ID}"
-          git rm -rf . || true
-          cp -r ../payload/* ./
-          git add .
-          git commit -m "reports: ${BRANCH_NAME} run ${RUN_ID}"
-          git push origin "reports/${BRANCH_NAME}/run-${RUN_ID}"
-          git switch main
-
       # Put direct links into the job summary
       - name: Add links to job summary
         if: steps.have_reports.outputs.found == 'true'
@@ -126,10 +113,9 @@ jobs:
         run: |
           BASE="https://${OWNER}.github.io/${REPO}"
           {
-            echo "### 📊 Karate Reports"
+            echo "### Karate Reports"
             echo ""
             echo "- Latest (${BRANCH_NAME}): ${BASE}/reports/${BRANCH_NAME}/latest/karate-summary.html"
             echo "- This run: ${BASE}/reports/${BRANCH_NAME}/run-${RUN_ID}/karate-summary.html"
             echo "- Root index: ${BASE}/"
-            echo "- Snapshot branch: https://github.com/${OWNER}/${REPO}/tree/reports/${BRANCH_NAME}/run-${RUN_ID}"
           } >> "$GITHUB_STEP_SUMMARY"
