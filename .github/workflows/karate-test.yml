@@ -7,7 +7,7 @@ on:
     branches: [ main, develop ]
   workflow_dispatch:
   schedule:
-    - cron: '0 0 * * 0'
+    - cron: '0 0 * * 0'  # every Sunday 00:00 UTC
 
 permissions:
   contents: write
@@ -18,7 +18,7 @@ concurrency:
 
 jobs:
   test:
-    # Evita loop: si el commit lo hace el bot, no corras
+    # avoid infinite loop when the bot commits docs/
     if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     env:
@@ -59,9 +59,11 @@ jobs:
         run: |
           mkdir -p payload/${REPORTS_SUBDIR}/${RUN_DIR}
           cp -r target/karate-reports/* "payload/${REPORTS_SUBDIR}/${RUN_DIR}/"
+          # branch alias "latest"
           rm -rf "payload/${REPORTS_SUBDIR}/latest" || true
           mkdir -p "payload/${REPORTS_SUBDIR}"
           cp -r target/karate-reports "payload/${REPORTS_SUBDIR}/latest"
+          # simple root index for convenience
           cat > payload/index.html <<'HTML'
           <!doctype html><meta charset="utf-8">
           <title>Karate Reports</title>
@@ -78,7 +80,7 @@ jobs:
           HTML
           touch payload/.nojekyll
 
-      # Publicar en main/docs (Pages)
+      # Publish into main/docs (GitHub Pages serves from here)
       - name: Checkout main (pages target) into pages/
         if: steps.have_reports.outputs.found == 'true'
         uses: actions/checkout@v4
@@ -100,7 +102,7 @@ jobs:
           git commit -m "chore(reports): publish ${BRANCH_NAME} -> docs/${REPORTS_SUBDIR}/${RUN_DIR} [skip ci]" || echo "No changes to commit"
           git push origin main
 
-      # Crear rama por ejecución con los reportes (para historial navegable en GitHub)
+      # Create a per-run branch with the exact report snapshot (navigable in GitHub)
       - name: Create per-run reports branch
         if: steps.have_reports.outputs.found == 'true'
         run: |
@@ -113,8 +115,21 @@ jobs:
           git push origin "reports/${BRANCH_NAME}/run-${RUN_ID}"
           git switch main
 
-      - name: Output useful links
+      # Put direct links into the job summary
+      - name: Add links to job summary
         if: steps.have_reports.outputs.found == 'true'
+        env:
+          BRANCH_NAME: ${{ env.BRANCH_NAME }}
+          RUN_ID: ${{ env.RUN_ID }}
+          OWNER: ${{ github.repository_owner }}
+          REPO: ${{ github.event.repository.name }}
         run: |
-          echo "::notice title=Pages URL::https://raulruiz89.github.io/karatePrototype/${{ env.REPORTS_SUBDIR }}/latest/karate-summary.html"
-          echo "::notice title=Run branch::https://github.com/raulruiz89/karatePrototype/tree/reports/${{ env.BRANCH_NAME }}/run-${{ env.RUN_ID }}"
+          BASE="https://${OWNER}.github.io/${REPO}"
+          {
+            echo "### 📊 Karate Reports"
+            echo ""
+            echo "- Latest (${BRANCH_NAME}): ${BASE}/reports/${BRANCH_NAME}/latest/karate-summary.html"
+            echo "- This run: ${BASE}/reports/${BRANCH_NAME}/run-${RUN_ID}/karate-summary.html"
+            echo "- Root index: ${BASE}/"
+            echo "- Snapshot branch: https://github.com/${OWNER}/${REPO}/tree/reports/${BRANCH_NAME}/run-${RUN_ID}"
+          } >> "$GITHUB_STEP_SUMMARY"
