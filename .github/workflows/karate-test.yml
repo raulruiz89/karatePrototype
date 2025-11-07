@@ -1,121 +1,274 @@
 name: Karate Tests
 
 on:
-  push:
-    branches: [ main, develop ]
   pull_request:
-    branches: [ main, develop ]
-  workflow_dispatch:
-  schedule:
-    - cron: '0 0 * * 0'  # every Sunday 00:00 UTC
+    branches: [ 'develop', 'main' ]
+  workflow_dispatch: {}
 
+# Needed permissions for Pages deployment
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
+  actions: write    # Necesario para la configuración de Pages
 
+# Ensure one workflow per ref/PR
 concurrency:
-  group: "pages"
-  cancel-in-progress: false
+  group: pages-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   test:
-    # avoid infinite loop when the bot commits docs/
-    if: github.actor != 'github-actions[bot]'
+    name: Run tests and prepare report
     runs-on: ubuntu-latest
-    env:
-      BRANCH_NAME: ${{ github.ref_name }}
-      RUN_ID: ${{ github.run_number }}
-      REPORTS_SUBDIR: reports/${{ github.ref_name }}
-      RUN_DIR: run-${{ github.run_number }}
 
     steps:
-      - name: Checkout current branch
+      - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          persist-credentials: true
 
-      - name: Set up JDK 21
+      - name: Set up Java
         uses: actions/setup-java@v4
         with:
+          distribution: temurin
           java-version: '21'
-          distribution: 'temurin'
           cache: 'maven'
 
-      - name: Run tests
-        run: mvn -q -DskipTests=false clean test
+      # Cache de Maven ya está configurado en el paso de setup-java con cache: 'maven'
 
-      - name: Ensure build produced Karate reports
-        id: have_reports
+      - name: Run Maven tests (Karate)
+        run: mvn -B test
+
+      - name: Show Karate report folders (debug)
+        if: always()
         run: |
-          if [ ! -d target/karate-reports ]; then
-            echo "found=false" >> "$GITHUB_OUTPUT"
-            echo "No Karate reports found, skipping publication."
-          else
-            echo "found=true" >> "$GITHUB_OUTPUT"
+          echo "=== listing target ==="
+          ls -la target || true
+          echo "=== listing karate reports ==="
+          ls -la target | grep karate || true
+          ls -la target/karate-reports* || true
+
+      - name: Prepare Pages site from Karate reports
+        if: always()
+        run: |
+          set -e
+          mkdir -p site
+          
+          echo "=== Debug: Listing target directory ==="
+          ls -la target/
+          
+          echo "=== Debug: Listing Karate reports ==="
+          ls -la target/karate-reports* 2>/dev/null || true
+          
+          # Crear estructura del sitio
+          mkdir -p site/reports
+          
+          # Copiar reportes estándar
+          if [ -d target/karate-reports ]; then
+            echo "Copiando reportes estándar..."
+            cp -r target/karate-reports/* site/reports/
           fi
+          
+          # Copiar reportes con timestamp
+          for report_dir in target/karate-reports_*; do
+            if [ -d "$report_dir" ]; then
+              echo "Copiando reportes de $report_dir..."
+              timestamp=$(basename "$report_dir" | sed 's/karate-reports_//')
+              mkdir -p "site/reports/run-$timestamp"
+              cp -r "$report_dir"/* "site/reports/run-$timestamp/"
+            fi
+          done
+          
+          # Crear index.html mejorado
+          cat > site/index.html << 'EOF'
+          <!DOCTYPE html>
+          <html lang="es">
+          <head>
+              <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <title>Karate Test Reports</title>
+              <style>
+                  body {
+                      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+                      line-height: 1.6;
+                      max-width: 1200px;
+                      margin: 0 auto;
+                      padding: 20px;
+                      background: #f5f5f5;
+                  }
+                  .container {
+                      background: white;
+                      padding: 20px;
+                      border-radius: 8px;
+                      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                  }
+                  h1 {
+                      color: #2c3e50;
+                      border-bottom: 2px solid #3498db;
+                      padding-bottom: 10px;
+                  }
+                  .report-section {
+                      margin: 20px 0;
+                      padding: 15px;
+                      background: #f8f9fa;
+                      border-radius: 4px;
+                  }
+                  .report-link {
+                      display: inline-block;
+                      padding: 8px 15px;
+                      margin: 5px;
+                      background: #3498db;
+                      color: white;
+                      text-decoration: none;
+                      border-radius: 4px;
+                      transition: background 0.3s;
+                  }
+                  .report-link:hover {
+                      background: #2980b9;
+                  }
+                  .timestamp {
+                      color: #666;
+                      font-size: 0.9em;
+                  }
+              </style>
+          </head>
+          <body>
+              <div class="container">
+                  <h1>🚀 Karate Test Reports</h1>
+                  
+                  <div class="report-section">
+                      <h2>Último Reporte</h2>
+                      <p>
+                          <a href="reports/karate-summary.html" class="report-link">Ver Reporte Completo</a>
+                          <a href="reports/karate-timeline.html" class="report-link">Ver Timeline</a>
+                          <a href="reports/karate-tags.html" class="report-link">Ver Tags</a>
+                      </p>
+                  </div>
+                  
+                  <div class="report-section">
+                      <h2>Reportes Históricos</h2>
+                      <div id="historical-reports">
+                          <!-- Se llenará dinámicamente -->
+                      </div>
+                  </div>
+              </div>
+              
+              <script>
+                  // Función para listar los reportes históricos
+                  async function listHistoricalReports() {
+                      const container = document.getElementById('historical-reports');
+                      
+                      try {
+                          const response = await fetch('reports/');
+                          if (response.ok) {
+                              const text = await response.text();
+                              const parser = new DOMParser();
+                              const doc = parser.parseFromString(text, 'text/html');
+                              const links = Array.from(doc.querySelectorAll('a'))
+                                  .filter(a => a.href.includes('run-'));
+                              
+                              if (links.length > 0) {
+                                  links.forEach(link => {
+                                      const runFolder = link.href.split('/').pop();
+                                      const timestamp = runFolder.replace('run-', '');
+                                      const div = document.createElement('div');
+                                      div.innerHTML = `
+                                          <p>
+                                              <span class="timestamp">Ejecución: ${timestamp}</span><br>
+                                              <a href="reports/${runFolder}/karate-summary.html" class="report-link">Reporte</a>
+                                              <a href="reports/${runFolder}/karate-timeline.html" class="report-link">Timeline</a>
+                                          </p>
+                                      `;
+                                      container.appendChild(div);
+                                  });
+                              } else {
+                                  container.innerHTML = '<p>No hay reportes históricos disponibles.</p>';
+                              }
+                          }
+                      } catch (error) {
+                          container.innerHTML = '<p>Error al cargar los reportes históricos.</p>';
+                      }
+                  }
+                  
+                  // Cargar reportes al iniciar
+                  listHistoricalReports();
+              </script>
+          </body>
+          </html>
+          EOF
+          
+          echo "=== Debug: Listing final site structure ==="
+          ls -la site/
+          ls -la site/reports/ || true
 
-      - name: Prepare reports payload
-        if: steps.have_reports.outputs.found == 'true'
-        run: |
-          mkdir -p payload/${REPORTS_SUBDIR}/${RUN_DIR}
-          cp -r target/karate-reports/* "payload/${REPORTS_SUBDIR}/${RUN_DIR}/"
-          # branch alias "latest"
-          rm -rf "payload/${REPORTS_SUBDIR}/latest" || true
-          mkdir -p "payload/${REPORTS_SUBDIR}"
-          cp -r target/karate-reports "payload/${REPORTS_SUBDIR}/latest"
-          # simple root index for convenience
-          cat > payload/index.html <<'HTML'
-          <!doctype html><meta charset="utf-8">
-          <title>Karate Reports</title>
-          <h1>Karate Reports</h1>
-          <ul>
-            <li><a href="./reports/main/latest/karate-summary.html">main / latest</a></li>
-            <li><a href="./reports/develop/latest/karate-summary.html">develop / latest</a></li>
-          </ul>
-          <p>Runs:</p>
-          <ul>
-            <li><a href="./reports/main/">main runs</a></li>
-            <li><a href="./reports/develop/">develop runs</a></li>
-          </ul>
-          HTML
-          touch payload/.nojekyll
-
-      # Publish into main/docs (GitHub Pages serves from here)
-      - name: Checkout main (pages target) into pages/
-        if: steps.have_reports.outputs.found == 'true'
-        uses: actions/checkout@v4
+      - name: Upload Pages artifact (Karate report)
+        # Solo subir si los tests se ejecutaron (success() o failure())
+        if: success() || failure()
+        uses: actions/upload-pages-artifact@v4
         with:
-          ref: main
-          path: pages
-          fetch-depth: 0
-          persist-credentials: true
+          path: site
+          retention-days: 30
+          name: github-pages-${{ github.run_number }}
 
-      - name: Update main/docs with reports
-        if: steps.have_reports.outputs.found == 'true'
+  configure-pages:
+    name: Configure GitHub Pages
+    runs-on: ubuntu-latest
+    # Ejecutar siempre para asegurar la configuración
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+
+      - name: Configure GitHub Pages
         run: |
-          mkdir -p pages/docs
-          rsync -a payload/ pages/docs/
-          cd pages
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add docs
-          git commit -m "chore(reports): publish ${BRANCH_NAME} -> docs/${REPORTS_SUBDIR}/${RUN_DIR} [skip ci]" || echo "No changes to commit"
-          git push origin main
-
-      # Put direct links into the job summary
-      - name: Add links to job summary
-        if: steps.have_reports.outputs.found == 'true'
+          echo "Configurando GitHub Pages..."
+          
+          # Crear rama gh-pages si no existe
+          git checkout -b gh-pages || git checkout gh-pages
+          git push origin gh-pages || true
+          
+          # Habilitar GitHub Pages usando la API
+          curl -L \
+            -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            https://api.github.com/repos/${{ github.repository }}/pages \
+            -d '{"source":{"branch":"gh-pages","path":"/"},"build_type":"workflow"}' || true
+          
+          # Verificar estado
+          echo "Verificando configuración de Pages..."
+          curl -L \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            https://api.github.com/repos/${{ github.repository }}/pages
         env:
-          BRANCH_NAME: ${{ env.BRANCH_NAME }}
-          RUN_ID: ${{ env.RUN_ID }}
-          OWNER: ${{ github.repository_owner }}
-          REPO: ${{ github.event.repository.name }}
-        run: |
-          BASE="https://${OWNER}.github.io/${REPO}"
-          {
-            echo "### Karate Reports"
-            echo ""
-            echo "- Latest (${BRANCH_NAME}): ${BASE}/reports/${BRANCH_NAME}/latest/karate-summary.html"
-            echo "- This run: ${BASE}/reports/${BRANCH_NAME}/run-${RUN_ID}/karate-summary.html"
-            echo "- Root index: ${BASE}/"
-          } >> "$GITHUB_STEP_SUMMARY"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  deploy-pages:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    name: Deploy Karate report to GitHub Pages
+    needs: [test, configure-pages]
+    runs-on: ubuntu-latest
+    # Solo ejecutar si los jobs anteriores completaron
+    if: always() && (needs.test.result == 'success' || needs.test.result == 'failure')
+    steps:
+      - name: Wait for Pages configuration
+        run: sleep 30  # dar tiempo a que la configuración de Pages se aplique
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+        with:
+          artifact_name: github-pages-${{ github.run_number }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+# Notes:
+# - The workflow runs on pull_request to develop/main and can be triggered manually.
+# - It runs `mvn test`, collects the Karate generated HTML report(s) from `target/karate-reports*`,
+#   prepares a `site/` folder and uploads it as a Pages artifact, then deploys via the Pages action.
+# - Ensure GitHub Pages is enabled in the repository settings (the action will publish the artifact to Pages).
+# - For PRs from forks, GITHUB_TOKEN permissions are limited; Pages deployment may not run for forked PRs unless configured.

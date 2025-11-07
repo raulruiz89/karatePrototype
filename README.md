@@ -111,34 +111,39 @@ Available tags:
 - @update
 - @delete
 
-## 📊 Test Reports
+## 📊 Test reports and CI publishing
 
-### Local
+### Local reports
 - HTML: `target/karate-reports/karate-summary.html`
 - JSON: `target/karate-reports/karate-summary-json.txt`
 - Timeline: `target/karate-reports/karate-timeline.html`
 
-### GitHub Pages
-El pipeline publica SIEMPRE en `main/docs` (sin PR) y separa por rama y por ejecución:
+### How CI publishes reports (what the workflow does)
+The GitHub Actions workflow (`.github/workflows/karate-test.yml`) performs the following steps when it runs:
 
-- Latest por rama:
-  - `docs/reports/main/latest/…`
-  - `docs/reports/develop/latest/…`
-- Históricos:
-  - `docs/reports/main/run-<N>/…`
-  - `docs/reports/develop/run-<N>/…`
+1. Runs on Pull Requests to `develop`/`main` and can be triggered manually (`workflow_dispatch`).
+2. Runs the test suite with Maven: `mvn test` and generates Karate HTML reports under `target/karate-reports` (and timestamped `target/karate-reports_*`).
+3. Prepares a `site/` folder containing:
+    - `site/reports/` with the latest `karate-reports` files
+    - `site/reports/run-<timestamp>/` folders for historical runs
+    - `site/index.html` (a dashboard page) that links to the reports
+4. Uploads the `site/` folder as a GitHub Pages artifact using `actions/upload-pages-artifact`.
+5. Deploys the artifact to GitHub Pages via `actions/deploy-pages` (the workflow configures Pages to use the `gh-pages` branch and deploys the artifact).
 
-Página de entrada:
-- https://raulruiz89.github.io/karatePrototype  
-  (sirve `main/docs`, configurado en Settings → Pages → Deploy from a branch → `main` / `docs`)
+This means the published site is served by GitHub Pages and contains both the latest and historical report runs.
 
-El workflow corre en `main` y `develop`. Si corre en `develop`, el job hace commit directo en `main/docs` para que GitHub Pages lo publique.
+### Published URL
+- The site is exposed at: `https://raulruiz89.github.io/karatePrototype` (GitHub Pages). The workflow attempts to configure Pages to serve the deployed artifact. The first deployment may take a few minutes.
 
-### GitHub Actions
-Los tests se ejecutan automáticamente en los siguientes casos:
-1. Al crear un Pull Request hacia las ramas `main` o `develop`
-2. Al hacer push directo a las ramas `main` o `develop`
-3. Manualmente desde la sección Actions de GitHub
+### Notes and permissions
+- The workflow requires Pages write permissions and the ability to upload Pages artifacts. Ensure in your repository settings (Settings → Actions → General) that **Workflow permissions** allow **Read and write** and that `GITHUB_TOKEN` can be used by Actions.
+- For PRs from forks, the `GITHUB_TOKEN` has limited permissions and Pages deployment may not run for security reasons.
+
+### When the workflow runs
+- On Pull Requests targeting `develop` and `main`.
+- On manual trigger (Actions → Karate Tests → Run workflow).
+
+If you prefer the reports to be placed inside the same branch (e.g. `main/docs/`), the workflow can be changed to commit the `docs/` folder back to the branch instead of using Pages artifacts — however that requires branch push permissions and may conflict with branch protection rules.
 
 ## 📝 Test Structure
 
