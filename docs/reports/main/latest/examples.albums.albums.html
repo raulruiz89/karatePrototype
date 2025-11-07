@@ -1,0 +1,6823 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <link rel="stylesheet" href="res/bootstrap.min.css" type="text/css"/>
+    <link rel="stylesheet" href="res/karate-report.css" type="text/css"/>
+    <link rel="shortcut icon" href="favicon.ico"/>
+    <script type="text/javascript" src="res/jquery.min.js"></script>
+    <script type="text/javascript" src="res/jquery.tablesorter.min.js"></script>
+    <script type="text/javascript" src="res/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="res/bootstrap.min.js"></script>
+    <script type="text/javascript" src="res/karate-report.js"></script>
+    <script type="text/javascript" src="res/Resemble.js"></script>
+    <script>
+!function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.async=!0,p.src=s.api_host+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+posthog.init('phc_M6fKk3dSX9HjglkqPSybauGas45NINb7EgsPGU8N9g1',{
+  api_host:'https://app.posthog.com',
+  persistence:'localStorage',
+  autocapture:false,
+  capture_pageview:false,
+  api_transport:'sendBeacon',
+  loaded: function(posthog) { 
+    posthog.capture("report_feature",{distinct_id:"43741778-6af4-4174-b14d-d1860d84e0d1",karate_version:"1.5.0",karate_meta:null});
+  }
+});
+</script>
+
+    <title>examples.albums.albums</title>
+  </head>
+  <body>
+    <div id="root-container">
+      <div id="leftnav">
+        
+        <div>
+  <div class="nav-logo">
+    <a href="https://karatelabs.io">
+      <img src="karate-labs-logo-ring.svg" alt="Karate Labs"/>
+    </a>
+    <div class="nav-count">
+      <div id="nav-pass" class="bg-success">11</div>
+      <div id="nav-fail" class="bg-danger">0</div>
+    </div>
+  </div>
+  <div id="nav-env">
+    <div></div>
+  </div>
+  <div id="nav-type">
+    <div>Scenarios</div>
+  </div>
+  <div id="nav-date">
+    <div>2025-11-07 01:59:51 AM</div>
+  </div>
+</div>
+
+        <div class="nav-container">
+          <div class="nav-item passed">
+            <a href="#[1:23]"><span>[1:23]</span> <span>Get all albums and validate response</span></a>
+          </div>
+          <div class="nav-item passed">
+            <a href="#[2.1:40]"><span>[2.1:40]</span> <span>Get albums for a specific user</span></a>
+          </div>
+          <div class="nav-item passed">
+            <a href="#[2.2:41]"><span>[2.2:41]</span> <span>Get albums for a specific user</span></a>
+          </div>
+          <div class="nav-item passed">
+            <a href="#[3:44]"><span>[3:44]</span> <span>Create a new album</span></a>
+          </div>
+          <div class="nav-item passed">
+            <a href="#[4:59]"><span>[4:59]</span> <span>Update an existing album</span></a>
+          </div>
+          <div class="nav-item passed">
+            <a href="#[5:70]"><span>[5:70]</span> <span>Delete an album</span></a>
+          </div>
+          <div class="nav-item passed">
+            <a href="#[6.1:87]"><span>[6.1:87]</span> <span>Validate error handling for invalid requests</span></a>
+          </div>
+          <div class="nav-item passed">
+            <a href="#[6.2:88]"><span>[6.2:88]</span> <span>Validate error handling for invalid requests</span></a>
+          </div>
+          <div class="nav-item passed">
+            <a href="#[7.1:101]"><span>[7.1:101]</span> <span>Validate album data validation</span></a>
+          </div>
+          <div class="nav-item passed">
+            <a href="#[7.2:102]"><span>[7.2:102]</span> <span>Validate album data validation</span></a>
+          </div>
+          <div class="nav-item passed">
+            <a href="#[7.3:103]"><span>[7.3:103]</span> <span>Validate album data validation</span></a>
+          </div>
+        </div>
+      </div>
+      <div id="content">
+        <div class="page-heading alert alert-primary">
+          <a href="karate-summary.html">Summary</a><span class="feature-label">|</span>
+          <a href="karate-tags.html">Tags</a><span class="feature-label">|</span>
+          <span class="feature-label">Feature:</span>
+          <span class="feature-path">examples/albums/albums.feature</span><span class="feature-label">|</span>
+          <span class="feature-name">Albums API Testing</span>
+          <span class="feature-description">This feature tests the CRUD operations for the albums endpoint
+  API Endpoint: /albums</span>
+        </div>
+        <div class="scenario">
+          <div class="scenario-heading" id="[1:23]">
+            <div class="heading-container">
+              <div class="scenario-tags">
+                <a class="badge badge-primary" href="karate-tags.html">albums</a><a class="badge badge-primary" href="karate-tags.html">getall</a><a class="badge badge-primary" href="karate-tags.html">smoke</a><a class="badge badge-primary" href="karate-tags.html">api</a><a class="badge badge-primary" href="karate-tags.html">positive</a>
+              </div>
+              <div class="scenario-keyword">
+                Scenario: <span>[1:23]</span>
+                <span class="scenario-name">Get all albums and validate response</span>
+                <span></span>
+              </div>
+            </div>
+            <div class="scenario-time passed">
+              <span>ms:</span>&nbsp;<span>2469</span>
+            </div>
+          </div>
+          <div class="step-row">
+            <div class="step-container" id="[1:23]bg">
+              <div class="step-ref bg-step">&gt;&gt;</div>
+              <div class="step-cell passed">Background:</div>
+            </div>
+            <div class="time-cell passed"></div>
+          </div>
+          <div data-parent="[1:23]bg"><div>
+  
+
+  <div class="step-row">
+    <div class="step-container">
+      <div class="step-ref passed"></div>
+      
+      <div class="step-cell comment"># Global configuration</div>
+    </div>
+    <div class="time-cell comment"></div>            
+  </div>
+
+  <div class="step-row">
+    <div class="step-container" id="0.8">
+      <div class="step-ref bg-step">8</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>def config = { timeout: 5000, baseUrl: #(baseUrl) }</span>
+      </div>
+    </div>
+    <div class="time-cell passed">4</div>
+  </div>
+
+   
+  
+  
+
+  
+
+  <div class="preformatted" data-parent="0.8">01:59:49.016 karate.env system property was: qa 
+</div>   
+
+  
+
+</div>
+</div>
+          <div data-parent="[1:23]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.9">
+      <div class="step-ref bg-step">9</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>url config.baseUrl</span>
+      </div>
+    </div>
+    <div class="time-cell passed">1</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[1:23]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.10">
+      <div class="step-ref bg-step">10</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>path &#39;albums&#39;</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[1:23]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.11">
+      <div class="step-ref bg-step">11</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>header Accept = &#39;application/json&#39;</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[1:23]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.12">
+      <div class="step-ref bg-step">12</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>header Content-Type = &#39;application/json&#39;</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[1:23]bg"><div>
+  
+
+  <div class="step-row">
+    <div class="step-container">
+      <div class="step-ref passed"></div>
+      
+      <div class="step-cell comment"># Schemas and test data</div>
+    </div>
+    <div class="time-cell comment"></div>            
+  </div>
+
+  <div class="step-row">
+    <div class="step-container" id="0.15">
+      <div class="step-ref bg-step">15</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>def albumSchema = read(&#39;classpath:schemas/album-schema.json&#39;)</span>
+      </div>
+    </div>
+    <div class="time-cell passed">2</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[1:23]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.16">
+      <div class="step-ref bg-step">16</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>print albumSchema</span>
+      </div>
+    </div>
+    <div class="time-cell passed">12</div>
+  </div>
+
+   
+  
+  
+
+  
+
+  <div class="preformatted" data-parent="0.16">01:59:49.092 [print] {
+  &quot;userId&quot;: &quot;#number&quot;,
+  &quot;id&quot;: &quot;#number&quot;,
+  &quot;title&quot;: &quot;#string&quot;
+}
+ 
+</div>   
+
+  
+
+</div>
+</div>
+          <div data-parent="[1:23]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.17">
+      <div class="step-ref bg-step">17</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>def albumArraySchema = &#39;#[] #(albumSchema)&#39;</span>
+      </div>
+    </div>
+    <div class="time-cell passed">4</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[1:23]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.18">
+      <div class="step-ref bg-step">18</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>print albumArraySchema</span>
+      </div>
+    </div>
+    <div class="time-cell passed">1</div>
+  </div>
+
+   
+  
+  
+
+  
+
+  <div class="preformatted" data-parent="0.18">01:59:49.097 [print] #[] #(albumSchema) 
+</div>   
+
+  
+
+</div>
+</div>
+          <div data-parent="[1:23]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.19">
+      <div class="step-ref bg-step">19</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>def testDataFile = read(&#39;classpath:testdata/albums.json&#39;)</span>
+      </div>
+    </div>
+    <div class="time-cell passed">1</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[1:23]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.20">
+      <div class="step-ref bg-step">20</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>def utils = read(&#39;classpath:examples/utilities.js&#39;)()</span>
+      </div>
+    </div>
+    <div class="time-cell passed">19</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.24">
+      <div class="step-ref passed">24</div>
+      
+      <div class="step-cell passed">
+        <span>When</span>&nbsp;<span>method GET</span>
+      </div>
+    </div>
+    <div class="time-cell passed">2216</div>
+  </div>
+
+   
+  
+  
+
+  
+
+  <div class="preformatted" data-parent="0.24">01:59:50.155 request:
+1 &gt; GET https://jsonplaceholder.typicode.com/albums
+1 &gt; Accept: application/json
+1 &gt; Content-Type: application/json
+1 &gt; Host: jsonplaceholder.typicode.com
+1 &gt; Connection: Keep-Alive
+1 &gt; User-Agent: Apache-HttpClient/4.5.14 (Java/21.0.9)
+1 &gt; Accept-Encoding: gzip,deflate
+
+
+01:59:51.330 response time in milliseconds: 1171
+1 &lt; 200
+1 &lt; Date: Fri, 07 Nov 2025 01:59:51 GMT
+1 &lt; Content-Type: application/json; charset=utf-8
+1 &lt; Connection: keep-alive
+1 &lt; access-control-allow-credentials: true
+1 &lt; Cache-Control: max-age=43200
+1 &lt; etag: W/&quot;2475-YUx9CiwTgoHXeL4210gtmqFIZNA&quot;
+1 &lt; expires: -1
+1 &lt; nel: {&quot;report_to&quot;:&quot;heroku-nel&quot;,&quot;response_headers&quot;:[&quot;Via&quot;],&quot;max_age&quot;:3600,&quot;success_fraction&quot;:0.01,&quot;failure_fraction&quot;:0.1}
+1 &lt; pragma: no-cache
+1 &lt; report-to: {&quot;group&quot;:&quot;heroku-nel&quot;,&quot;endpoints&quot;:[{&quot;url&quot;:&quot;https://nel.heroku.com/reports?s=iTJaoNv3r9tLFmaMHH9SM5U3rlb3doxjY1O2r4XGFJ4%3D\u0026sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d\u0026ts=1762460400&quot;}],&quot;max_age&quot;:3600}
+1 &lt; reporting-endpoints: heroku-nel=&quot;https://nel.heroku.com/reports?s=iTJaoNv3r9tLFmaMHH9SM5U3rlb3doxjY1O2r4XGFJ4%3D&amp;sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&amp;ts=1762460400&quot;
+1 &lt; Server: cloudflare
+1 &lt; vary: Origin, Accept-Encoding
+1 &lt; via: 2.0 heroku-router
+1 &lt; x-content-type-options: nosniff
+1 &lt; x-powered-by: Express
+1 &lt; x-ratelimit-limit: 1000
+1 &lt; x-ratelimit-remaining: 999
+1 &lt; x-ratelimit-reset: 1762460447
+1 &lt; Age: 20390
+1 &lt; cf-cache-status: HIT
+1 &lt; CF-RAY: 99a93bd19bd33b66-IAD
+1 &lt; alt-svc: h3=&quot;:443&quot;; ma=86400
+[
+  {
+    &quot;userId&quot;: 1,
+    &quot;id&quot;: 1,
+    &quot;title&quot;: &quot;quidem molestiae enim&quot;
+  },
+  {
+    &quot;userId&quot;: 1,
+    &quot;id&quot;: 2,
+    &quot;title&quot;: &quot;sunt qui excepturi placeat culpa&quot;
+  },
+  {
+    &quot;userId&quot;: 1,
+    &quot;id&quot;: 3,
+    &quot;title&quot;: &quot;omnis laborum odio&quot;
+  },
+  {
+    &quot;userId&quot;: 1,
+    &quot;id&quot;: 4,
+    &quot;title&quot;: &quot;non esse culpa molestiae omnis sed optio&quot;
+  },
+  {
+    &quot;userId&quot;: 1,
+    &quot;id&quot;: 5,
+    &quot;title&quot;: &quot;eaque aut omnis a&quot;
+  },
+  {
+    &quot;userId&quot;: 1,
+    &quot;id&quot;: 6,
+    &quot;title&quot;: &quot;natus impedit quibusdam illo est&quot;
+  },
+  {
+    &quot;userId&quot;: 1,
+    &quot;id&quot;: 7,
+    &quot;title&quot;: &quot;quibusdam autem aliquid et et quia&quot;
+  },
+  {
+    &quot;userId&quot;: 1,
+    &quot;id&quot;: 8,
+    &quot;title&quot;: &quot;qui fuga est a eum&quot;
+  },
+  {
+    &quot;userId&quot;: 1,
+    &quot;id&quot;: 9,
+    &quot;title&quot;: &quot;saepe unde necessitatibus rem&quot;
+  },
+  {
+    &quot;userId&quot;: 1,
+    &quot;id&quot;: 10,
+    &quot;title&quot;: &quot;distinctio laborum qui&quot;
+  },
+  {
+    &quot;userId&quot;: 2,
+    &quot;id&quot;: 11,
+    &quot;title&quot;: &quot;quam nostrum impedit mollitia quod et dolor&quot;
+  },
+  {
+    &quot;userId&quot;: 2,
+    &quot;id&quot;: 12,
+    &quot;title&quot;: &quot;consequatur autem doloribus natus consectetur&quot;
+  },
+  {
+    &quot;userId&quot;: 2,
+    &quot;id&quot;: 13,
+    &quot;title&quot;: &quot;ab rerum non rerum consequatur ut ea unde&quot;
+  },
+  {
+    &quot;userId&quot;: 2,
+    &quot;id&quot;: 14,
+    &quot;title&quot;: &quot;ducimus molestias eos animi atque nihil&quot;
+  },
+  {
+    &quot;userId&quot;: 2,
+    &quot;id&quot;: 15,
+    &quot;title&quot;: &quot;ut pariatur rerum ipsum natus repellendus praesentium&quot;
+  },
+  {
+    &quot;userId&quot;: 2,
+    &quot;id&quot;: 16,
+    &quot;title&quot;: &quot;voluptatem aut maxime inventore autem magnam atque repellat&quot;
+  },
+  {
+    &quot;userId&quot;: 2,
+    &quot;id&quot;: 17,
+    &quot;title&quot;: &quot;aut minima voluptatem ut velit&quot;
+  },
+  {
+    &quot;userId&quot;: 2,
+    &quot;id&quot;: 18,
+    &quot;title&quot;: &quot;nesciunt quia et doloremque&quot;
+  },
+  {
+    &quot;userId&quot;: 2,
+    &quot;id&quot;: 19,
+    &quot;title&quot;: &quot;velit pariatur quaerat similique libero omnis quia&quot;
+  },
+  {
+    &quot;userId&quot;: 2,
+    &quot;id&quot;: 20,
+    &quot;title&quot;: &quot;voluptas rerum iure ut enim&quot;
+  },
+  {
+    &quot;userId&quot;: 3,
+    &quot;id&quot;: 21,
+    &quot;title&quot;: &quot;repudiandae voluptatem optio est consequatur rem in temporibus et&quot;
+  },
+  {
+    &quot;userId&quot;: 3,
+    &quot;id&quot;: 22,
+    &quot;title&quot;: &quot;et rem non provident vel ut&quot;
+  },
+  {
+    &quot;userId&quot;: 3,
+    &quot;id&quot;: 23,
+    &quot;title&quot;: &quot;incidunt quisquam hic adipisci sequi&quot;
+  },
+  {
+    &quot;userId&quot;: 3,
+    &quot;id&quot;: 24,
+    &quot;title&quot;: &quot;dolores ut et facere placeat&quot;
+  },
+  {
+    &quot;userId&quot;: 3,
+    &quot;id&quot;: 25,
+    &quot;title&quot;: &quot;vero maxime id possimus sunt neque et consequatur&quot;
+  },
+  {
+    &quot;userId&quot;: 3,
+    &quot;id&quot;: 26,
+    &quot;title&quot;: &quot;quibusdam saepe ipsa vel harum&quot;
+  },
+  {
+    &quot;userId&quot;: 3,
+    &quot;id&quot;: 27,
+    &quot;title&quot;: &quot;id non nostrum expedita&quot;
+  },
+  {
+    &quot;userId&quot;: 3,
+    &quot;id&quot;: 28,
+    &quot;title&quot;: &quot;omnis neque exercitationem sed dolor atque maxime aut cum&quot;
+  },
+  {
+    &quot;userId&quot;: 3,
+    &quot;id&quot;: 29,
+    &quot;title&quot;: &quot;inventore ut quasi magnam itaque est fugit&quot;
+  },
+  {
+    &quot;userId&quot;: 3,
+    &quot;id&quot;: 30,
+    &quot;title&quot;: &quot;tempora assumenda et similique odit distinctio error&quot;
+  },
+  {
+    &quot;userId&quot;: 4,
+    &quot;id&quot;: 31,
+    &quot;title&quot;: &quot;adipisci laborum fuga laboriosam&quot;
+  },
+  {
+    &quot;userId&quot;: 4,
+    &quot;id&quot;: 32,
+    &quot;title&quot;: &quot;reiciendis dolores a ut qui debitis non quo labore&quot;
+  },
+  {
+    &quot;userId&quot;: 4,
+    &quot;id&quot;: 33,
+    &quot;title&quot;: &quot;iste eos nostrum&quot;
+  },
+  {
+    &quot;userId&quot;: 4,
+    &quot;id&quot;: 34,
+    &quot;title&quot;: &quot;cumque voluptatibus rerum architecto blanditiis&quot;
+  },
+  {
+    &quot;userId&quot;: 4,
+    &quot;id&quot;: 35,
+    &quot;title&quot;: &quot;et impedit nisi quae magni necessitatibus sed aut pariatur&quot;
+  },
+  {
+    &quot;userId&quot;: 4,
+    &quot;id&quot;: 36,
+    &quot;title&quot;: &quot;nihil cupiditate voluptate neque&quot;
+  },
+  {
+    &quot;userId&quot;: 4,
+    &quot;id&quot;: 37,
+    &quot;title&quot;: &quot;est placeat dicta ut nisi rerum iste&quot;
+  },
+  {
+    &quot;userId&quot;: 4,
+    &quot;id&quot;: 38,
+    &quot;title&quot;: &quot;unde a sequi id&quot;
+  },
+  {
+    &quot;userId&quot;: 4,
+    &quot;id&quot;: 39,
+    &quot;title&quot;: &quot;ratione porro illum labore eum aperiam sed&quot;
+  },
+  {
+    &quot;userId&quot;: 4,
+    &quot;id&quot;: 40,
+    &quot;title&quot;: &quot;voluptas neque et sint aut quo odit&quot;
+  },
+  {
+    &quot;userId&quot;: 5,
+    &quot;id&quot;: 41,
+    &quot;title&quot;: &quot;ea voluptates maiores eos accusantium officiis tempore mollitia consequatur&quot;
+  },
+  {
+    &quot;userId&quot;: 5,
+    &quot;id&quot;: 42,
+    &quot;title&quot;: &quot;tenetur explicabo ea&quot;
+  },
+  {
+    &quot;userId&quot;: 5,
+    &quot;id&quot;: 43,
+    &quot;title&quot;: &quot;aperiam doloremque nihil&quot;
+  },
+  {
+    &quot;userId&quot;: 5,
+    &quot;id&quot;: 44,
+    &quot;title&quot;: &quot;sapiente cum numquam officia consequatur vel natus quos suscipit&quot;
+  },
+  {
+    &quot;userId&quot;: 5,
+    &quot;id&quot;: 45,
+    &quot;title&quot;: &quot;tenetur quos ea unde est enim corrupti qui&quot;
+  },
+  {
+    &quot;userId&quot;: 5,
+    &quot;id&quot;: 46,
+    &quot;title&quot;: &quot;molestiae voluptate non&quot;
+  },
+  {
+    &quot;userId&quot;: 5,
+    &quot;id&quot;: 47,
+    &quot;title&quot;: &quot;temporibus molestiae aut&quot;
+  },
+  {
+    &quot;userId&quot;: 5,
+    &quot;id&quot;: 48,
+    &quot;title&quot;: &quot;modi consequatur culpa aut quam soluta alias perspiciatis laudantium&quot;
+  },
+  {
+    &quot;userId&quot;: 5,
+    &quot;id&quot;: 49,
+    &quot;title&quot;: &quot;ut aut vero repudiandae voluptas ullam voluptas at consequatur&quot;
+  },
+  {
+    &quot;userId&quot;: 5,
+    &quot;id&quot;: 50,
+    &quot;title&quot;: &quot;sed qui sed quas sit ducimus dolor&quot;
+  },
+  {
+    &quot;userId&quot;: 6,
+    &quot;id&quot;: 51,
+    &quot;title&quot;: &quot;odit laboriosam sint quia cupiditate animi quis&quot;
+  },
+  {
+    &quot;userId&quot;: 6,
+    &quot;id&quot;: 52,
+    &quot;title&quot;: &quot;necessitatibus quas et sunt at voluptatem&quot;
+  },
+  {
+    &quot;userId&quot;: 6,
+    &quot;id&quot;: 53,
+    &quot;title&quot;: &quot;est vel sequi voluptatem nemo quam molestiae modi enim&quot;
+  },
+  {
+    &quot;userId&quot;: 6,
+    &quot;id&quot;: 54,
+    &quot;title&quot;: &quot;aut non illo amet perferendis&quot;
+  },
+  {
+    &quot;userId&quot;: 6,
+    &quot;id&quot;: 55,
+    &quot;title&quot;: &quot;qui culpa itaque omnis in nesciunt architecto error&quot;
+  },
+  {
+    &quot;userId&quot;: 6,
+    &quot;id&quot;: 56,
+    &quot;title&quot;: &quot;omnis qui maiores tempora officiis omnis rerum sed repellat&quot;
+  },
+  {
+    &quot;userId&quot;: 6,
+    &quot;id&quot;: 57,
+    &quot;title&quot;: &quot;libero excepturi voluptatem est architecto quae voluptatum officia tempora&quot;
+  },
+  {
+    &quot;userId&quot;: 6,
+    &quot;id&quot;: 58,
+    &quot;title&quot;: &quot;nulla illo consequatur aspernatur veritatis aut error delectus et&quot;
+  },
+  {
+    &quot;userId&quot;: 6,
+    &quot;id&quot;: 59,
+    &quot;title&quot;: &quot;eligendi similique provident nihil&quot;
+  },
+  {
+    &quot;userId&quot;: 6,
+    &quot;id&quot;: 60,
+    &quot;title&quot;: &quot;omnis mollitia sunt aliquid eum consequatur fugit minus laudantium&quot;
+  },
+  {
+    &quot;userId&quot;: 7,
+    &quot;id&quot;: 61,
+    &quot;title&quot;: &quot;delectus iusto et&quot;
+  },
+  {
+    &quot;userId&quot;: 7,
+    &quot;id&quot;: 62,
+    &quot;title&quot;: &quot;eos ea non recusandae iste ut quasi&quot;
+  },
+  {
+    &quot;userId&quot;: 7,
+    &quot;id&quot;: 63,
+    &quot;title&quot;: &quot;velit est quam&quot;
+  },
+  {
+    &quot;userId&quot;: 7,
+    &quot;id&quot;: 64,
+    &quot;title&quot;: &quot;autem voluptatem amet iure quae&quot;
+  },
+  {
+    &quot;userId&quot;: 7,
+    &quot;id&quot;: 65,
+    &quot;title&quot;: &quot;voluptates delectus iure iste qui&quot;
+  },
+  {
+    &quot;userId&quot;: 7,
+    &quot;id&quot;: 66,
+    &quot;title&quot;: &quot;velit sed quia dolor dolores delectus&quot;
+  },
+  {
+    &quot;userId&quot;: 7,
+    &quot;id&quot;: 67,
+    &quot;title&quot;: &quot;ad voluptas nostrum et nihil&quot;
+  },
+  {
+    &quot;userId&quot;: 7,
+    &quot;id&quot;: 68,
+    &quot;title&quot;: &quot;qui quasi nihil aut voluptatum sit dolore minima&quot;
+  },
+  {
+    &quot;userId&quot;: 7,
+    &quot;id&quot;: 69,
+    &quot;title&quot;: &quot;qui aut est&quot;
+  },
+  {
+    &quot;userId&quot;: 7,
+    &quot;id&quot;: 70,
+    &quot;title&quot;: &quot;et deleniti unde&quot;
+  },
+  {
+    &quot;userId&quot;: 8,
+    &quot;id&quot;: 71,
+    &quot;title&quot;: &quot;et vel corporis&quot;
+  },
+  {
+    &quot;userId&quot;: 8,
+    &quot;id&quot;: 72,
+    &quot;title&quot;: &quot;unde exercitationem ut&quot;
+  },
+  {
+    &quot;userId&quot;: 8,
+    &quot;id&quot;: 73,
+    &quot;title&quot;: &quot;quos omnis officia&quot;
+  },
+  {
+    &quot;userId&quot;: 8,
+    &quot;id&quot;: 74,
+    &quot;title&quot;: &quot;quia est eius vitae dolor&quot;
+  },
+  {
+    &quot;userId&quot;: 8,
+    &quot;id&quot;: 75,
+    &quot;title&quot;: &quot;aut quia expedita non&quot;
+  },
+  {
+    &quot;userId&quot;: 8,
+    &quot;id&quot;: 76,
+    &quot;title&quot;: &quot;dolorem magnam facere itaque ut reprehenderit tenetur corrupti&quot;
+  },
+  {
+    &quot;userId&quot;: 8,
+    &quot;id&quot;: 77,
+    &quot;title&quot;: &quot;cupiditate sapiente maiores iusto ducimus cum excepturi veritatis quia&quot;
+  },
+  {
+    &quot;userId&quot;: 8,
+    &quot;id&quot;: 78,
+    &quot;title&quot;: &quot;est minima eius possimus ea ratione velit et&quot;
+  },
+  {
+    &quot;userId&quot;: 8,
+    &quot;id&quot;: 79,
+    &quot;title&quot;: &quot;ipsa quae voluptas natus ut suscipit soluta quia quidem&quot;
+  },
+  {
+    &quot;userId&quot;: 8,
+    &quot;id&quot;: 80,
+    &quot;title&quot;: &quot;id nihil reprehenderit&quot;
+  },
+  {
+    &quot;userId&quot;: 9,
+    &quot;id&quot;: 81,
+    &quot;title&quot;: &quot;quibusdam sapiente et&quot;
+  },
+  {
+    &quot;userId&quot;: 9,
+    &quot;id&quot;: 82,
+    &quot;title&quot;: &quot;recusandae consequatur vel amet unde&quot;
+  },
+  {
+    &quot;userId&quot;: 9,
+    &quot;id&quot;: 83,
+    &quot;title&quot;: &quot;aperiam odio fugiat&quot;
+  },
+  {
+    &quot;userId&quot;: 9,
+    &quot;id&quot;: 84,
+    &quot;title&quot;: &quot;est et at eos expedita&quot;
+  },
+  {
+    &quot;userId&quot;: 9,
+    &quot;id&quot;: 85,
+    &quot;title&quot;: &quot;qui voluptatem consequatur aut ab quis temporibus praesentium&quot;
+  },
+  {
+    &quot;userId&quot;: 9,
+    &quot;id&quot;: 86,
+    &quot;title&quot;: &quot;eligendi mollitia alias aspernatur vel ut iusto&quot;
+  },
+  {
+    &quot;userId&quot;: 9,
+    &quot;id&quot;: 87,
+    &quot;title&quot;: &quot;aut aut architecto&quot;
+  },
+  {
+    &quot;userId&quot;: 9,
+    &quot;id&quot;: 88,
+    &quot;title&quot;: &quot;quas perspiciatis optio&quot;
+  },
+  {
+    &quot;userId&quot;: 9,
+    &quot;id&quot;: 89,
+    &quot;title&quot;: &quot;sit optio id voluptatem est eum et&quot;
+  },
+  {
+    &quot;userId&quot;: 9,
+    &quot;id&quot;: 90,
+    &quot;title&quot;: &quot;est vel dignissimos&quot;
+  },
+  {
+    &quot;userId&quot;: 10,
+    &quot;id&quot;: 91,
+    &quot;title&quot;: &quot;repellendus praesentium debitis officiis&quot;
+  },
+  {
+    &quot;userId&quot;: 10,
+    &quot;id&quot;: 92,
+    &quot;title&quot;: &quot;incidunt et et eligendi assumenda soluta quia recusandae&quot;
+  },
+  {
+    &quot;userId&quot;: 10,
+    &quot;id&quot;: 93,
+    &quot;title&quot;: &quot;nisi qui dolores perspiciatis&quot;
+  },
+  {
+    &quot;userId&quot;: 10,
+    &quot;id&quot;: 94,
+    &quot;title&quot;: &quot;quisquam a dolores et earum vitae&quot;
+  },
+  {
+    &quot;userId&quot;: 10,
+    &quot;id&quot;: 95,
+    &quot;title&quot;: &quot;consectetur vel rerum qui aperiam modi eos aspernatur ipsa&quot;
+  },
+  {
+    &quot;userId&quot;: 10,
+    &quot;id&quot;: 96,
+    &quot;title&quot;: &quot;unde et ut molestiae est molestias voluptatem sint&quot;
+  },
+  {
+    &quot;userId&quot;: 10,
+    &quot;id&quot;: 97,
+    &quot;title&quot;: &quot;est quod aut&quot;
+  },
+  {
+    &quot;userId&quot;: 10,
+    &quot;id&quot;: 98,
+    &quot;title&quot;: &quot;omnis quia possimus nesciunt deleniti assumenda sed autem&quot;
+  },
+  {
+    &quot;userId&quot;: 10,
+    &quot;id&quot;: 99,
+    &quot;title&quot;: &quot;consectetur ut id impedit dolores sit ad ex aut&quot;
+  },
+  {
+    &quot;userId&quot;: 10,
+    &quot;id&quot;: 100,
+    &quot;title&quot;: &quot;enim repellat iste&quot;
+  }
+]
+
+</div>   
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.25">
+      <div class="step-ref passed">25</div>
+      
+      <div class="step-cell passed">
+        <span>Then</span>&nbsp;<span>status 200</span>
+      </div>
+    </div>
+    <div class="time-cell passed">5</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.26">
+      <div class="step-ref passed">26</div>
+      
+      <div class="step-cell passed">
+        <span>And</span>&nbsp;<span>match response == albumArraySchema</span>
+      </div>
+    </div>
+    <div class="time-cell passed">194</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.27">
+      <div class="step-ref passed">27</div>
+      
+      <div class="step-cell passed">
+        <span>And</span>&nbsp;<span>assert response.length &gt; 0</span>
+      </div>
+    </div>
+    <div class="time-cell passed">5</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.28">
+      <div class="step-ref passed">28</div>
+      
+      <div class="step-cell passed">
+        <span>And</span>&nbsp;<span>assert responseTime &lt; config.timeout</span>
+      </div>
+    </div>
+    <div class="time-cell passed">6</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+        </div>
+        <div class="scenario">
+          <div class="scenario-heading" id="[2.1:40]">
+            <div class="heading-container">
+              <div class="scenario-tags">
+                <a class="badge badge-primary" href="karate-tags.html">albums</a><a class="badge badge-primary" href="karate-tags.html">getbyuser</a><a class="badge badge-primary" href="karate-tags.html">smoke</a><a class="badge badge-primary" href="karate-tags.html">api</a><a class="badge badge-primary" href="karate-tags.html">positive</a>
+              </div>
+              <div class="scenario-keyword">
+                Scenario: <span>[2.1:40]</span>
+                <span class="scenario-name">Get albums for a specific user</span>
+                <span></span>
+              </div>
+            </div>
+            <div class="scenario-time passed">
+              <span>ms:</span>&nbsp;<span>2300</span>
+            </div>
+          </div>
+          <div class="step-row">
+            <div class="step-container" id="[2.1:40]bg">
+              <div class="step-ref bg-step">&gt;&gt;</div>
+              <div class="step-cell passed">Background:</div>
+            </div>
+            <div class="time-cell passed"></div>
+          </div>
+          <div data-parent="[2.1:40]bg"><div>
+  
+
+  <div class="step-row">
+    <div class="step-container">
+      <div class="step-ref passed"></div>
+      
+      <div class="step-cell comment"># Global configuration</div>
+    </div>
+    <div class="time-cell comment"></div>            
+  </div>
+
+  <div class="step-row">
+    <div class="step-container" id="1.8">
+      <div class="step-ref bg-step">8</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>def config = { timeout: 5000, baseUrl: #(baseUrl) }</span>
+      </div>
+    </div>
+    <div class="time-cell passed">2</div>
+  </div>
+
+   
+  
+  
+
+  
+
+  <div class="preformatted" data-parent="1.8">01:59:49.015 karate.env system property was: qa 
+</div>   
+
+  
+
+</div>
+</div>
+          <div data-parent="[2.1:40]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="1.9">
+      <div class="step-ref bg-step">9</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>url config.baseUrl</span>
+      </div>
+    </div>
+    <div class="time-cell passed">1</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[2.1:40]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="1.10">
+      <div class="step-ref bg-step">10</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>path &#39;albums&#39;</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[2.1:40]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="1.11">
+      <div class="step-ref bg-step">11</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>header Accept = &#39;application/json&#39;</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[2.1:40]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="1.12">
+      <div class="step-ref bg-step">12</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>header Content-Type = &#39;application/json&#39;</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[2.1:40]bg"><div>
+  
+
+  <div class="step-row">
+    <div class="step-container">
+      <div class="step-ref passed"></div>
+      
+      <div class="step-cell comment"># Schemas and test data</div>
+    </div>
+    <div class="time-cell comment"></div>            
+  </div>
+
+  <div class="step-row">
+    <div class="step-container" id="1.15">
+      <div class="step-ref bg-step">15</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>def albumSchema = read(&#39;classpath:schemas/album-schema.json&#39;)</span>
+      </div>
+    </div>
+    <div class="time-cell passed">4</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[2.1:40]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="1.16">
+      <div class="step-ref bg-step">16</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>print albumSchema</span>
+      </div>
+    </div>
+    <div class="time-cell passed">7</div>
+  </div>
+
+   
+  
+  
+
+  
+
+  <div class="preformatted" data-parent="1.16">01:59:49.096 [print] {
+  &quot;userId&quot;: &quot;#number&quot;,
+  &quot;id&quot;: &quot;#number&quot;,
+  &quot;title&quot;: &quot;#string&quot;
+}
+ 
+</div>   
+
+  
+
+</div>
+</div>
+          <div data-parent="[2.1:40]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="1.17">
+      <div class="step-ref bg-step">17</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>def albumArraySchema = &#39;#[] #(albumSchema)&#39;</span>
+      </div>
+    </div>
+    <div class="time-cell passed">1</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[2.1:40]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="1.18">
+      <div class="step-ref bg-step">18</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>print albumArraySchema</span>
+      </div>
+    </div>
+    <div class="time-cell passed">1</div>
+  </div>
+
+   
+  
+  
+
+  
+
+  <div class="preformatted" data-parent="1.18">01:59:49.097 [print] #[] #(albumSchema) 
+</div>   
+
+  
+
+</div>
+</div>
+          <div data-parent="[2.1:40]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="1.19">
+      <div class="step-ref bg-step">19</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>def testDataFile = read(&#39;classpath:testdata/albums.json&#39;)</span>
+      </div>
+    </div>
+    <div class="time-cell passed">7</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[2.1:40]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="1.20">
+      <div class="step-ref bg-step">20</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>def utils = read(&#39;classpath:examples/utilities.js&#39;)()</span>
+      </div>
+    </div>
+    <div class="time-cell passed">11</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="1.32">
+      <div class="step-ref passed">32</div>
+      
+      <div class="step-cell passed">
+        <span>Given</span>&nbsp;<span>param userId = 1</span>
+      </div>
+    </div>
+    <div class="time-cell passed">4</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="1.33">
+      <div class="step-ref passed">33</div>
+      
+      <div class="step-cell passed">
+        <span>When</span>&nbsp;<span>method GET</span>
+      </div>
+    </div>
+    <div class="time-cell passed">2216</div>
+  </div>
+
+   
+  
+  
+
+  
+
+  <div class="preformatted" data-parent="1.33">01:59:50.155 request:
+1 &gt; GET https://jsonplaceholder.typicode.com/albums?userId=1
+1 &gt; Accept: application/json
+1 &gt; Content-Type: application/json
+1 &gt; Host: jsonplaceholder.typicode.com
+1 &gt; Connection: Keep-Alive
+1 &gt; User-Agent: Apache-HttpClient/4.5.14 (Java/21.0.9)
+1 &gt; Accept-Encoding: gzip,deflate
+
+
+01:59:51.332 response time in milliseconds: 1171
+1 &lt; 200
+1 &lt; Date: Fri, 07 Nov 2025 01:59:51 GMT
+1 &lt; Content-Type: application/json; charset=utf-8
+1 &lt; Transfer-Encoding: chunked
+1 &lt; Connection: keep-alive
+1 &lt; access-control-allow-credentials: true
+1 &lt; Cache-Control: max-age=43200
+1 &lt; etag: W/&quot;330-ZijGjYafuM6Dm43uVseWIUhtIIw&quot;
+1 &lt; expires: -1
+1 &lt; nel: {&quot;report_to&quot;:&quot;heroku-nel&quot;,&quot;response_headers&quot;:[&quot;Via&quot;],&quot;max_age&quot;:3600,&quot;success_fraction&quot;:0.01,&quot;failure_fraction&quot;:0.1}
+1 &lt; pragma: no-cache
+1 &lt; report-to: {&quot;group&quot;:&quot;heroku-nel&quot;,&quot;endpoints&quot;:[{&quot;url&quot;:&quot;https://nel.heroku.com/reports?s=Tsx608dfcs%2Bibix97j2VsHxH2KccxIKagvW4InPp54k%3D\u0026sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d\u0026ts=1762444404&quot;}],&quot;max_age&quot;:3600}
+1 &lt; reporting-endpoints: heroku-nel=&quot;https://nel.heroku.com/reports?s=Tsx608dfcs%2Bibix97j2VsHxH2KccxIKagvW4InPp54k%3D&amp;sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&amp;ts=1762444404&quot;
+1 &lt; Server: cloudflare
+1 &lt; vary: Origin, Accept-Encoding
+1 &lt; via: 2.0 heroku-router
+1 &lt; x-content-type-options: nosniff
+1 &lt; x-powered-by: Express
+1 &lt; x-ratelimit-limit: 1000
+1 &lt; x-ratelimit-remaining: 999
+1 &lt; x-ratelimit-reset: 1762444465
+1 &lt; Age: 7140
+1 &lt; cf-cache-status: HIT
+1 &lt; CF-RAY: 99a93bd19ad2d962-IAD
+1 &lt; alt-svc: h3=&quot;:443&quot;; ma=86400
+[
+  {
+    &quot;userId&quot;: 1,
+    &quot;id&quot;: 1,
+    &quot;title&quot;: &quot;quidem molestiae enim&quot;
+  },
+  {
+    &quot;userId&quot;: 1,
+    &quot;id&quot;: 2,
+    &quot;title&quot;: &quot;sunt qui excepturi placeat culpa&quot;
+  },
+  {
+    &quot;userId&quot;: 1,
+    &quot;id&quot;: 3,
+    &quot;title&quot;: &quot;omnis laborum odio&quot;
+  },
+  {
+    &quot;userId&quot;: 1,
+    &quot;id&quot;: 4,
+    &quot;title&quot;: &quot;non esse culpa molestiae omnis sed optio&quot;
+  },
+  {
+    &quot;userId&quot;: 1,
+    &quot;id&quot;: 5,
+    &quot;title&quot;: &quot;eaque aut omnis a&quot;
+  },
+  {
+    &quot;userId&quot;: 1,
+    &quot;id&quot;: 6,
+    &quot;title&quot;: &quot;natus impedit quibusdam illo est&quot;
+  },
+  {
+    &quot;userId&quot;: 1,
+    &quot;id&quot;: 7,
+    &quot;title&quot;: &quot;quibusdam autem aliquid et et quia&quot;
+  },
+  {
+    &quot;userId&quot;: 1,
+    &quot;id&quot;: 8,
+    &quot;title&quot;: &quot;qui fuga est a eum&quot;
+  },
+  {
+    &quot;userId&quot;: 1,
+    &quot;id&quot;: 9,
+    &quot;title&quot;: &quot;saepe unde necessitatibus rem&quot;
+  },
+  {
+    &quot;userId&quot;: 1,
+    &quot;id&quot;: 10,
+    &quot;title&quot;: &quot;distinctio laborum qui&quot;
+  }
+]
+
+</div>   
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="1.34">
+      <div class="step-ref passed">34</div>
+      
+      <div class="step-cell passed">
+        <span>Then</span>&nbsp;<span>status 200</span>
+      </div>
+    </div>
+    <div class="time-cell passed">1</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="1.35">
+      <div class="step-ref passed">35</div>
+      
+      <div class="step-cell passed">
+        <span>And</span>&nbsp;<span>match each response == albumSchema</span>
+      </div>
+    </div>
+    <div class="time-cell passed">32</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="1.36">
+      <div class="step-ref passed">36</div>
+      
+      <div class="step-cell passed">
+        <span>And</span>&nbsp;<span>match each response[*].userId == 1</span>
+      </div>
+    </div>
+    <div class="time-cell passed">14</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+        </div>
+        <div class="scenario">
+          <div class="scenario-heading" id="[2.2:41]">
+            <div class="heading-container">
+              <div class="scenario-tags">
+                <a class="badge badge-primary" href="karate-tags.html">albums</a><a class="badge badge-primary" href="karate-tags.html">getbyuser</a><a class="badge badge-primary" href="karate-tags.html">smoke</a><a class="badge badge-primary" href="karate-tags.html">api</a><a class="badge badge-primary" href="karate-tags.html">positive</a>
+              </div>
+              <div class="scenario-keyword">
+                Scenario: <span>[2.2:41]</span>
+                <span class="scenario-name">Get albums for a specific user</span>
+                <span></span>
+              </div>
+            </div>
+            <div class="scenario-time passed">
+              <span>ms:</span>&nbsp;<span>2302</span>
+            </div>
+          </div>
+          <div class="step-row">
+            <div class="step-container" id="[2.2:41]bg">
+              <div class="step-ref bg-step">&gt;&gt;</div>
+              <div class="step-cell passed">Background:</div>
+            </div>
+            <div class="time-cell passed"></div>
+          </div>
+          <div data-parent="[2.2:41]bg"><div>
+  
+
+  <div class="step-row">
+    <div class="step-container">
+      <div class="step-ref passed"></div>
+      
+      <div class="step-cell comment"># Global configuration</div>
+    </div>
+    <div class="time-cell comment"></div>            
+  </div>
+
+  <div class="step-row">
+    <div class="step-container" id="2.8">
+      <div class="step-ref bg-step">8</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>def config = { timeout: 5000, baseUrl: #(baseUrl) }</span>
+      </div>
+    </div>
+    <div class="time-cell passed">3</div>
+  </div>
+
+   
+  
+  
+
+  
+
+  <div class="preformatted" data-parent="2.8">01:59:49.020 karate.env system property was: qa 
+</div>   
+
+  
+
+</div>
+</div>
+          <div data-parent="[2.2:41]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="2.9">
+      <div class="step-ref bg-step">9</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>url config.baseUrl</span>
+      </div>
+    </div>
+    <div class="time-cell passed">1</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[2.2:41]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="2.10">
+      <div class="step-ref bg-step">10</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>path &#39;albums&#39;</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[2.2:41]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="2.11">
+      <div class="step-ref bg-step">11</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>header Accept = &#39;application/json&#39;</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[2.2:41]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="2.12">
+      <div class="step-ref bg-step">12</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>header Content-Type = &#39;application/json&#39;</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[2.2:41]bg"><div>
+  
+
+  <div class="step-row">
+    <div class="step-container">
+      <div class="step-ref passed"></div>
+      
+      <div class="step-cell comment"># Schemas and test data</div>
+    </div>
+    <div class="time-cell comment"></div>            
+  </div>
+
+  <div class="step-row">
+    <div class="step-container" id="2.15">
+      <div class="step-ref bg-step">15</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>def albumSchema = read(&#39;classpath:schemas/album-schema.json&#39;)</span>
+      </div>
+    </div>
+    <div class="time-cell passed">6</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[2.2:41]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="2.16">
+      <div class="step-ref bg-step">16</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>print albumSchema</span>
+      </div>
+    </div>
+    <div class="time-cell passed">9</div>
+  </div>
+
+   
+  
+  
+
+  
+
+  <div class="preformatted" data-parent="2.16">01:59:49.093 [print] {
+  &quot;userId&quot;: &quot;#number&quot;,
+  &quot;id&quot;: &quot;#number&quot;,
+  &quot;title&quot;: &quot;#string&quot;
+}
+ 
+</div>   
+
+  
+
+</div>
+</div>
+          <div data-parent="[2.2:41]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="2.17">
+      <div class="step-ref bg-step">17</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>def albumArraySchema = &#39;#[] #(albumSchema)&#39;</span>
+      </div>
+    </div>
+    <div class="time-cell passed">1</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[2.2:41]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="2.18">
+      <div class="step-ref bg-step">18</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>print albumArraySchema</span>
+      </div>
+    </div>
+    <div class="time-cell passed">1</div>
+  </div>
+
+   
+  
+  
+
+  
+
+  <div class="preformatted" data-parent="2.18">01:59:49.100 [print] #[] #(albumSchema) 
+</div>   
+
+  
+
+</div>
+</div>
+          <div data-parent="[2.2:41]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="2.19">
+      <div class="step-ref bg-step">19</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>def testDataFile = read(&#39;classpath:testdata/albums.json&#39;)</span>
+      </div>
+    </div>
+    <div class="time-cell passed">1</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[2.2:41]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="2.20">
+      <div class="step-ref bg-step">20</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>def utils = read(&#39;classpath:examples/utilities.js&#39;)()</span>
+      </div>
+    </div>
+    <div class="time-cell passed">19</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="2.32">
+      <div class="step-ref passed">32</div>
+      
+      <div class="step-cell passed">
+        <span>Given</span>&nbsp;<span>param userId = 2</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="2.33">
+      <div class="step-ref passed">33</div>
+      
+      <div class="step-cell passed">
+        <span>When</span>&nbsp;<span>method GET</span>
+      </div>
+    </div>
+    <div class="time-cell passed">2211</div>
+  </div>
+
+   
+  
+  
+
+  
+
+  <div class="preformatted" data-parent="2.33">01:59:50.155 request:
+1 &gt; GET https://jsonplaceholder.typicode.com/albums?userId=2
+1 &gt; Accept: application/json
+1 &gt; Content-Type: application/json
+1 &gt; Host: jsonplaceholder.typicode.com
+1 &gt; Connection: Keep-Alive
+1 &gt; User-Agent: Apache-HttpClient/4.5.14 (Java/21.0.9)
+1 &gt; Accept-Encoding: gzip,deflate
+
+
+01:59:51.329 response time in milliseconds: 1171
+1 &lt; 200
+1 &lt; Date: Fri, 07 Nov 2025 01:59:51 GMT
+1 &lt; Content-Type: application/json; charset=utf-8
+1 &lt; Transfer-Encoding: chunked
+1 &lt; Connection: keep-alive
+1 &lt; access-control-allow-credentials: true
+1 &lt; Cache-Control: max-age=43200
+1 &lt; etag: W/&quot;3d0-LOVvcwCJG/Ebw6sISwpZWC8ZURY&quot;
+1 &lt; expires: -1
+1 &lt; nel: {&quot;report_to&quot;:&quot;heroku-nel&quot;,&quot;response_headers&quot;:[&quot;Via&quot;],&quot;max_age&quot;:3600,&quot;success_fraction&quot;:0.01,&quot;failure_fraction&quot;:0.1}
+1 &lt; pragma: no-cache
+1 &lt; report-to: {&quot;group&quot;:&quot;heroku-nel&quot;,&quot;endpoints&quot;:[{&quot;url&quot;:&quot;https://nel.heroku.com/reports?s=5dYxuRHk%2BADzkc%2Fvj5s23QKc9SKXXfDGRmyUc1ZYILM%3D\u0026sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d\u0026ts=1762356602&quot;}],&quot;max_age&quot;:3600}
+1 &lt; reporting-endpoints: heroku-nel=&quot;https://nel.heroku.com/reports?s=5dYxuRHk%2BADzkc%2Fvj5s23QKc9SKXXfDGRmyUc1ZYILM%3D&amp;sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&amp;ts=1762356602&quot;
+1 &lt; Server: cloudflare
+1 &lt; vary: Origin, Accept-Encoding
+1 &lt; via: 2.0 heroku-router
+1 &lt; x-content-type-options: nosniff
+1 &lt; x-powered-by: Express
+1 &lt; x-ratelimit-limit: 1000
+1 &lt; x-ratelimit-remaining: 994
+1 &lt; x-ratelimit-reset: 1762356628
+1 &lt; Age: 13853
+1 &lt; cf-cache-status: HIT
+1 &lt; CF-RAY: 99a93bd19d7ad8b4-IAD
+1 &lt; alt-svc: h3=&quot;:443&quot;; ma=86400
+[
+  {
+    &quot;userId&quot;: 2,
+    &quot;id&quot;: 11,
+    &quot;title&quot;: &quot;quam nostrum impedit mollitia quod et dolor&quot;
+  },
+  {
+    &quot;userId&quot;: 2,
+    &quot;id&quot;: 12,
+    &quot;title&quot;: &quot;consequatur autem doloribus natus consectetur&quot;
+  },
+  {
+    &quot;userId&quot;: 2,
+    &quot;id&quot;: 13,
+    &quot;title&quot;: &quot;ab rerum non rerum consequatur ut ea unde&quot;
+  },
+  {
+    &quot;userId&quot;: 2,
+    &quot;id&quot;: 14,
+    &quot;title&quot;: &quot;ducimus molestias eos animi atque nihil&quot;
+  },
+  {
+    &quot;userId&quot;: 2,
+    &quot;id&quot;: 15,
+    &quot;title&quot;: &quot;ut pariatur rerum ipsum natus repellendus praesentium&quot;
+  },
+  {
+    &quot;userId&quot;: 2,
+    &quot;id&quot;: 16,
+    &quot;title&quot;: &quot;voluptatem aut maxime inventore autem magnam atque repellat&quot;
+  },
+  {
+    &quot;userId&quot;: 2,
+    &quot;id&quot;: 17,
+    &quot;title&quot;: &quot;aut minima voluptatem ut velit&quot;
+  },
+  {
+    &quot;userId&quot;: 2,
+    &quot;id&quot;: 18,
+    &quot;title&quot;: &quot;nesciunt quia et doloremque&quot;
+  },
+  {
+    &quot;userId&quot;: 2,
+    &quot;id&quot;: 19,
+    &quot;title&quot;: &quot;velit pariatur quaerat similique libero omnis quia&quot;
+  },
+  {
+    &quot;userId&quot;: 2,
+    &quot;id&quot;: 20,
+    &quot;title&quot;: &quot;voluptas rerum iure ut enim&quot;
+  }
+]
+
+</div>   
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="2.34">
+      <div class="step-ref passed">34</div>
+      
+      <div class="step-cell passed">
+        <span>Then</span>&nbsp;<span>status 200</span>
+      </div>
+    </div>
+    <div class="time-cell passed">8</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="2.35">
+      <div class="step-ref passed">35</div>
+      
+      <div class="step-cell passed">
+        <span>And</span>&nbsp;<span>match each response == albumSchema</span>
+      </div>
+    </div>
+    <div class="time-cell passed">31</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="2.36">
+      <div class="step-ref passed">36</div>
+      
+      <div class="step-cell passed">
+        <span>And</span>&nbsp;<span>match each response[*].userId == 2</span>
+      </div>
+    </div>
+    <div class="time-cell passed">11</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+        </div>
+        <div class="scenario">
+          <div class="scenario-heading" id="[3:44]">
+            <div class="heading-container">
+              <div class="scenario-tags">
+                <a class="badge badge-primary" href="karate-tags.html">albums</a><a class="badge badge-primary" href="karate-tags.html">smoke</a><a class="badge badge-primary" href="karate-tags.html">create</a><a class="badge badge-primary" href="karate-tags.html">api</a><a class="badge badge-primary" href="karate-tags.html">positive</a>
+              </div>
+              <div class="scenario-keyword">
+                Scenario: <span>[3:44]</span>
+                <span class="scenario-name">Create a new album</span>
+                <span></span>
+              </div>
+            </div>
+            <div class="scenario-time passed">
+              <span>ms:</span>&nbsp;<span>2302</span>
+            </div>
+          </div>
+          <div class="step-row">
+            <div class="step-container" id="[3:44]bg">
+              <div class="step-ref bg-step">&gt;&gt;</div>
+              <div class="step-cell passed">Background:</div>
+            </div>
+            <div class="time-cell passed"></div>
+          </div>
+          <div data-parent="[3:44]bg"><div>
+  
+
+  <div class="step-row">
+    <div class="step-container">
+      <div class="step-ref passed"></div>
+      
+      <div class="step-cell comment"># Global configuration</div>
+    </div>
+    <div class="time-cell comment"></div>            
+  </div>
+
+  <div class="step-row">
+    <div class="step-container" id="0.8">
+      <div class="step-ref bg-step">8</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>def config = { timeout: 5000, baseUrl: #(baseUrl) }</span>
+      </div>
+    </div>
+    <div class="time-cell passed">1</div>
+  </div>
+
+   
+  
+  
+
+  
+
+  <div class="preformatted" data-parent="0.8">01:59:49.016 karate.env system property was: qa 
+</div>   
+
+  
+
+</div>
+</div>
+          <div data-parent="[3:44]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.9">
+      <div class="step-ref bg-step">9</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>url config.baseUrl</span>
+      </div>
+    </div>
+    <div class="time-cell passed">2</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[3:44]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.10">
+      <div class="step-ref bg-step">10</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>path &#39;albums&#39;</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[3:44]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.11">
+      <div class="step-ref bg-step">11</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>header Accept = &#39;application/json&#39;</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[3:44]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.12">
+      <div class="step-ref bg-step">12</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>header Content-Type = &#39;application/json&#39;</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[3:44]bg"><div>
+  
+
+  <div class="step-row">
+    <div class="step-container">
+      <div class="step-ref passed"></div>
+      
+      <div class="step-cell comment"># Schemas and test data</div>
+    </div>
+    <div class="time-cell comment"></div>            
+  </div>
+
+  <div class="step-row">
+    <div class="step-container" id="0.15">
+      <div class="step-ref bg-step">15</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>def albumSchema = read(&#39;classpath:schemas/album-schema.json&#39;)</span>
+      </div>
+    </div>
+    <div class="time-cell passed">7</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[3:44]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.16">
+      <div class="step-ref bg-step">16</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>print albumSchema</span>
+      </div>
+    </div>
+    <div class="time-cell passed">10</div>
+  </div>
+
+   
+  
+  
+
+  
+
+  <div class="preformatted" data-parent="0.16">01:59:49.093 [print] {
+  &quot;userId&quot;: &quot;#number&quot;,
+  &quot;id&quot;: &quot;#number&quot;,
+  &quot;title&quot;: &quot;#string&quot;
+}
+ 
+</div>   
+
+  
+
+</div>
+</div>
+          <div data-parent="[3:44]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.17">
+      <div class="step-ref bg-step">17</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>def albumArraySchema = &#39;#[] #(albumSchema)&#39;</span>
+      </div>
+    </div>
+    <div class="time-cell passed">1</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[3:44]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.18">
+      <div class="step-ref bg-step">18</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>print albumArraySchema</span>
+      </div>
+    </div>
+    <div class="time-cell passed">1</div>
+  </div>
+
+   
+  
+  
+
+  
+
+  <div class="preformatted" data-parent="0.18">01:59:49.096 [print] #[] #(albumSchema) 
+</div>   
+
+  
+
+</div>
+</div>
+          <div data-parent="[3:44]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.19">
+      <div class="step-ref bg-step">19</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>def testDataFile = read(&#39;classpath:testdata/albums.json&#39;)</span>
+      </div>
+    </div>
+    <div class="time-cell passed">5</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[3:44]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.20">
+      <div class="step-ref bg-step">20</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>def utils = read(&#39;classpath:examples/utilities.js&#39;)()</span>
+      </div>
+    </div>
+    <div class="time-cell passed">15</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.45">
+      <div class="step-ref passed">45</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>def timestamp = utils.getCurrentTimestamp()</span>
+      </div>
+    </div>
+    <div class="time-cell passed">143</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.46">
+      <div class="step-ref passed">46</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>def newAlbum = testDataFile.testData[0].createAlbum</span>
+      </div>
+    </div>
+    <div class="time-cell passed">1</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.47">
+      <div class="step-ref passed">47</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>print &#39;newAlbum =&gt;&#39;, newAlbum</span>
+      </div>
+    </div>
+    <div class="time-cell passed">1</div>
+  </div>
+
+   
+  
+  
+
+  
+
+  <div class="preformatted" data-parent="0.47">01:59:49.262 [print] newAlbum =&gt; {
+  &quot;userId&quot;: 1,
+  &quot;id&quot;: 1,
+  &quot;title&quot;: &quot;New Album Title&quot;
+}
+ 
+</div>   
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.49">
+      <div class="step-ref passed">49</div>
+      
+      <div class="step-cell passed">
+        <span>Given</span>&nbsp;<span>request newAlbum</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.50">
+      <div class="step-ref passed">50</div>
+      
+      <div class="step-cell passed">
+        <span>And</span>&nbsp;<span>header X-Timestamp = timestamp</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.51">
+      <div class="step-ref passed">51</div>
+      
+      <div class="step-cell passed">
+        <span>When</span>&nbsp;<span>method POST</span>
+      </div>
+    </div>
+    <div class="time-cell passed">2102</div>
+  </div>
+
+   
+  
+  
+
+  
+
+  <div class="preformatted" data-parent="0.51">01:59:50.155 request:
+1 &gt; POST https://jsonplaceholder.typicode.com/albums
+1 &gt; Accept: application/json
+1 &gt; Content-Type: application/json; charset=UTF-8
+1 &gt; X-Timestamp: 2025-11-07T01:59:49.125Z
+1 &gt; Content-Length: 45
+1 &gt; Host: jsonplaceholder.typicode.com
+1 &gt; Connection: Keep-Alive
+1 &gt; User-Agent: Apache-HttpClient/4.5.14 (Java/21.0.9)
+1 &gt; Accept-Encoding: gzip,deflate
+{&quot;userId&quot;:1,&quot;id&quot;:1,&quot;title&quot;:&quot;New Album Title&quot;}
+
+01:59:51.355 response time in milliseconds: 1199
+1 &lt; 201
+1 &lt; Date: Fri, 07 Nov 2025 01:59:51 GMT
+1 &lt; Content-Type: application/json; charset=utf-8
+1 &lt; Content-Length: 60
+1 &lt; Connection: keep-alive
+1 &lt; access-control-allow-credentials: true
+1 &lt; access-control-expose-headers: Location
+1 &lt; Cache-Control: no-cache
+1 &lt; etag: W/&quot;3c-y6E4tu9XNYyipqo2ddDIx9J5054&quot;
+1 &lt; expires: -1
+1 &lt; location: https://jsonplaceholder.typicode.com/albums/101
+1 &lt; nel: {&quot;report_to&quot;:&quot;heroku-nel&quot;,&quot;response_headers&quot;:[&quot;Via&quot;],&quot;max_age&quot;:3600,&quot;success_fraction&quot;:0.01,&quot;failure_fraction&quot;:0.1}
+1 &lt; pragma: no-cache
+1 &lt; report-to: {&quot;group&quot;:&quot;heroku-nel&quot;,&quot;endpoints&quot;:[{&quot;url&quot;:&quot;https://nel.heroku.com/reports?s=nN%2Bh%2BkCtAGyL8E9dQBgn4%2FaHI7gS3rJQiNF2zdlc1ZI%3D\u0026sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d\u0026ts=1762480791&quot;}],&quot;max_age&quot;:3600}
+1 &lt; reporting-endpoints: heroku-nel=&quot;https://nel.heroku.com/reports?s=nN%2Bh%2BkCtAGyL8E9dQBgn4%2FaHI7gS3rJQiNF2zdlc1ZI%3D&amp;sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&amp;ts=1762480791&quot;
+1 &lt; Server: cloudflare
+1 &lt; vary: Origin, X-HTTP-Method-Override, Accept-Encoding
+1 &lt; via: 2.0 heroku-router
+1 &lt; x-content-type-options: nosniff
+1 &lt; x-powered-by: Express
+1 &lt; x-ratelimit-limit: 1000
+1 &lt; x-ratelimit-remaining: 999
+1 &lt; x-ratelimit-reset: 1762480849
+1 &lt; cf-cache-status: DYNAMIC
+1 &lt; CF-RAY: 99a93bd19a9a0583-IAD
+1 &lt; alt-svc: h3=&quot;:443&quot;; ma=86400
+{
+  &quot;userId&quot;: 1,
+  &quot;id&quot;: 101,
+  &quot;title&quot;: &quot;New Album Title&quot;
+}
+
+</div>   
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.52">
+      <div class="step-ref passed">52</div>
+      
+      <div class="step-cell passed">
+        <span>Then</span>&nbsp;<span>status 201</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.53">
+      <div class="step-ref passed">53</div>
+      
+      <div class="step-cell passed">
+        <span>And</span>&nbsp;<span>match response.userId == newAlbum.userId</span>
+      </div>
+    </div>
+    <div class="time-cell passed">1</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.54">
+      <div class="step-ref passed">54</div>
+      
+      <div class="step-cell passed">
+        <span>And</span>&nbsp;<span>match response.title == newAlbum.title</span>
+      </div>
+    </div>
+    <div class="time-cell passed">1</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.55">
+      <div class="step-ref passed">55</div>
+      
+      <div class="step-cell passed">
+        <span>And</span>&nbsp;<span>match response.id == &#39;#number&#39;</span>
+      </div>
+    </div>
+    <div class="time-cell passed">9</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.56">
+      <div class="step-ref passed">56</div>
+      
+      <div class="step-cell passed">
+        <span>And</span>&nbsp;<span>match response == albumSchema</span>
+      </div>
+    </div>
+    <div class="time-cell passed">1</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+        </div>
+        <div class="scenario">
+          <div class="scenario-heading" id="[4:59]">
+            <div class="heading-container">
+              <div class="scenario-tags">
+                <a class="badge badge-primary" href="karate-tags.html">albums</a><a class="badge badge-primary" href="karate-tags.html">regression</a><a class="badge badge-primary" href="karate-tags.html">update</a><a class="badge badge-primary" href="karate-tags.html">api</a><a class="badge badge-primary" href="karate-tags.html">positive</a>
+              </div>
+              <div class="scenario-keyword">
+                Scenario: <span>[4:59]</span>
+                <span class="scenario-name">Update an existing album</span>
+                <span></span>
+              </div>
+            </div>
+            <div class="scenario-time passed">
+              <span>ms:</span>&nbsp;<span>2282</span>
+            </div>
+          </div>
+          <div class="step-row">
+            <div class="step-container" id="[4:59]bg">
+              <div class="step-ref bg-step">&gt;&gt;</div>
+              <div class="step-cell passed">Background:</div>
+            </div>
+            <div class="time-cell passed"></div>
+          </div>
+          <div data-parent="[4:59]bg"><div>
+  
+
+  <div class="step-row">
+    <div class="step-container">
+      <div class="step-ref passed"></div>
+      
+      <div class="step-cell comment"># Global configuration</div>
+    </div>
+    <div class="time-cell comment"></div>            
+  </div>
+
+  <div class="step-row">
+    <div class="step-container" id="0.8">
+      <div class="step-ref bg-step">8</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>def config = { timeout: 5000, baseUrl: #(baseUrl) }</span>
+      </div>
+    </div>
+    <div class="time-cell passed">6</div>
+  </div>
+
+   
+  
+  
+
+  
+
+  <div class="preformatted" data-parent="0.8">01:59:49.014 karate.env system property was: qa 
+</div>   
+
+  
+
+</div>
+</div>
+          <div data-parent="[4:59]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.9">
+      <div class="step-ref bg-step">9</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>url config.baseUrl</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[4:59]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.10">
+      <div class="step-ref bg-step">10</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>path &#39;albums&#39;</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[4:59]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.11">
+      <div class="step-ref bg-step">11</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>header Accept = &#39;application/json&#39;</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[4:59]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.12">
+      <div class="step-ref bg-step">12</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>header Content-Type = &#39;application/json&#39;</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[4:59]bg"><div>
+  
+
+  <div class="step-row">
+    <div class="step-container">
+      <div class="step-ref passed"></div>
+      
+      <div class="step-cell comment"># Schemas and test data</div>
+    </div>
+    <div class="time-cell comment"></div>            
+  </div>
+
+  <div class="step-row">
+    <div class="step-container" id="0.15">
+      <div class="step-ref bg-step">15</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>def albumSchema = read(&#39;classpath:schemas/album-schema.json&#39;)</span>
+      </div>
+    </div>
+    <div class="time-cell passed">4</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[4:59]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.16">
+      <div class="step-ref bg-step">16</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>print albumSchema</span>
+      </div>
+    </div>
+    <div class="time-cell passed">9</div>
+  </div>
+
+   
+  
+  
+
+  
+
+  <div class="preformatted" data-parent="0.16">01:59:49.094 [print] {
+  &quot;userId&quot;: &quot;#number&quot;,
+  &quot;id&quot;: &quot;#number&quot;,
+  &quot;title&quot;: &quot;#string&quot;
+}
+ 
+</div>   
+
+  
+
+</div>
+</div>
+          <div data-parent="[4:59]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.17">
+      <div class="step-ref bg-step">17</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>def albumArraySchema = &#39;#[] #(albumSchema)&#39;</span>
+      </div>
+    </div>
+    <div class="time-cell passed">4</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[4:59]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.18">
+      <div class="step-ref bg-step">18</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>print albumArraySchema</span>
+      </div>
+    </div>
+    <div class="time-cell passed">1</div>
+  </div>
+
+   
+  
+  
+
+  
+
+  <div class="preformatted" data-parent="0.18">01:59:49.100 [print] #[] #(albumSchema) 
+</div>   
+
+  
+
+</div>
+</div>
+          <div data-parent="[4:59]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.19">
+      <div class="step-ref bg-step">19</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>def testDataFile = read(&#39;classpath:testdata/albums.json&#39;)</span>
+      </div>
+    </div>
+    <div class="time-cell passed">1</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[4:59]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.20">
+      <div class="step-ref bg-step">20</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>def utils = read(&#39;classpath:examples/utilities.js&#39;)()</span>
+      </div>
+    </div>
+    <div class="time-cell passed">16</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.60">
+      <div class="step-ref passed">60</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>def updatedData = testDataFile.testData[0].updateAlbum</span>
+      </div>
+    </div>
+    <div class="time-cell passed">6</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.61">
+      <div class="step-ref passed">61</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>print updatedData</span>
+      </div>
+    </div>
+    <div class="time-cell passed">2</div>
+  </div>
+
+   
+  
+  
+
+  
+
+  <div class="preformatted" data-parent="0.61">01:59:49.125 [print] {
+  &quot;userId&quot;: 1,
+  &quot;id&quot;: 1,
+  &quot;title&quot;: &quot;Updated Album Title&quot;
+}
+ 
+</div>   
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.63">
+      <div class="step-ref passed">63</div>
+      
+      <div class="step-cell passed">
+        <span>Given</span>&nbsp;<span>path &#39;1&#39;</span>
+      </div>
+    </div>
+    <div class="time-cell passed">1</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.64">
+      <div class="step-ref passed">64</div>
+      
+      <div class="step-cell passed">
+        <span>And</span>&nbsp;<span>request updatedData</span>
+      </div>
+    </div>
+    <div class="time-cell passed">2</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.65">
+      <div class="step-ref passed">65</div>
+      
+      <div class="step-cell passed">
+        <span>When</span>&nbsp;<span>method PUT</span>
+      </div>
+    </div>
+    <div class="time-cell passed">2229</div>
+  </div>
+
+   
+  
+  
+
+  
+
+  <div class="preformatted" data-parent="0.65">01:59:50.156 request:
+1 &gt; PUT https://jsonplaceholder.typicode.com/albums/1
+1 &gt; Accept: application/json
+1 &gt; Content-Type: application/json; charset=UTF-8
+1 &gt; Content-Length: 49
+1 &gt; Host: jsonplaceholder.typicode.com
+1 &gt; Connection: Keep-Alive
+1 &gt; User-Agent: Apache-HttpClient/4.5.14 (Java/21.0.9)
+1 &gt; Accept-Encoding: gzip,deflate
+{&quot;userId&quot;:1,&quot;id&quot;:1,&quot;title&quot;:&quot;Updated Album Title&quot;}
+
+01:59:51.355 response time in milliseconds: 1195
+1 &lt; 200
+1 &lt; Date: Fri, 07 Nov 2025 01:59:51 GMT
+1 &lt; Content-Type: application/json; charset=utf-8
+1 &lt; Transfer-Encoding: chunked
+1 &lt; Connection: keep-alive
+1 &lt; access-control-allow-credentials: true
+1 &lt; Cache-Control: no-cache
+1 &lt; etag: W/&quot;3e-3OU6YsSjTD58UktqxPoUcMsN5QY&quot;
+1 &lt; expires: -1
+1 &lt; nel: {&quot;report_to&quot;:&quot;heroku-nel&quot;,&quot;response_headers&quot;:[&quot;Via&quot;],&quot;max_age&quot;:3600,&quot;success_fraction&quot;:0.01,&quot;failure_fraction&quot;:0.1}
+1 &lt; pragma: no-cache
+1 &lt; report-to: {&quot;group&quot;:&quot;heroku-nel&quot;,&quot;endpoints&quot;:[{&quot;url&quot;:&quot;https://nel.heroku.com/reports?s=nN%2Bh%2BkCtAGyL8E9dQBgn4%2FaHI7gS3rJQiNF2zdlc1ZI%3D\u0026sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d\u0026ts=1762480791&quot;}],&quot;max_age&quot;:3600}
+1 &lt; reporting-endpoints: heroku-nel=&quot;https://nel.heroku.com/reports?s=nN%2Bh%2BkCtAGyL8E9dQBgn4%2FaHI7gS3rJQiNF2zdlc1ZI%3D&amp;sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&amp;ts=1762480791&quot;
+1 &lt; Server: cloudflare
+1 &lt; vary: Origin, Accept-Encoding
+1 &lt; via: 2.0 heroku-router
+1 &lt; x-content-type-options: nosniff
+1 &lt; x-powered-by: Express
+1 &lt; x-ratelimit-limit: 1000
+1 &lt; x-ratelimit-remaining: 998
+1 &lt; x-ratelimit-reset: 1762480849
+1 &lt; cf-cache-status: DYNAMIC
+1 &lt; CF-RAY: 99a93bd19d008017-IAD
+1 &lt; alt-svc: h3=&quot;:443&quot;; ma=86400
+{
+  &quot;userId&quot;: 1,
+  &quot;id&quot;: 1,
+  &quot;title&quot;: &quot;Updated Album Title&quot;
+}
+
+</div>   
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.66">
+      <div class="step-ref passed">66</div>
+      
+      <div class="step-cell passed">
+        <span>Then</span>&nbsp;<span>status 200</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.67">
+      <div class="step-ref passed">67</div>
+      
+      <div class="step-cell passed">
+        <span>And</span>&nbsp;<span>match response contains updatedData</span>
+      </div>
+    </div>
+    <div class="time-cell passed">1</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+        </div>
+        <div class="scenario">
+          <div class="scenario-heading" id="[5:70]">
+            <div class="heading-container">
+              <div class="scenario-tags">
+                <a class="badge badge-primary" href="karate-tags.html">albums</a><a class="badge badge-primary" href="karate-tags.html">regression</a><a class="badge badge-primary" href="karate-tags.html">api</a><a class="badge badge-primary" href="karate-tags.html">positive</a><a class="badge badge-primary" href="karate-tags.html">delete</a>
+              </div>
+              <div class="scenario-keyword">
+                Scenario: <span>[5:70]</span>
+                <span class="scenario-name">Delete an album</span>
+                <span></span>
+              </div>
+            </div>
+            <div class="scenario-time passed">
+              <span>ms:</span>&nbsp;<span>107</span>
+            </div>
+          </div>
+          <div class="step-row">
+            <div class="step-container" id="[5:70]bg">
+              <div class="step-ref bg-step">&gt;&gt;</div>
+              <div class="step-cell passed">Background:</div>
+            </div>
+            <div class="time-cell passed"></div>
+          </div>
+          <div data-parent="[5:70]bg"><div>
+  
+
+  <div class="step-row">
+    <div class="step-container">
+      <div class="step-ref passed"></div>
+      
+      <div class="step-cell comment"># Global configuration</div>
+    </div>
+    <div class="time-cell comment"></div>            
+  </div>
+
+  <div class="step-row">
+    <div class="step-container" id="0.8">
+      <div class="step-ref bg-step">8</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>def config = { timeout: 5000, baseUrl: #(baseUrl) }</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+  <div class="preformatted" data-parent="0.8">01:59:51.374 karate.env system property was: qa 
+</div>   
+
+  
+
+</div>
+</div>
+          <div data-parent="[5:70]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.9">
+      <div class="step-ref bg-step">9</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>url config.baseUrl</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[5:70]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.10">
+      <div class="step-ref bg-step">10</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>path &#39;albums&#39;</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[5:70]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.11">
+      <div class="step-ref bg-step">11</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>header Accept = &#39;application/json&#39;</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[5:70]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.12">
+      <div class="step-ref bg-step">12</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>header Content-Type = &#39;application/json&#39;</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[5:70]bg"><div>
+  
+
+  <div class="step-row">
+    <div class="step-container">
+      <div class="step-ref passed"></div>
+      
+      <div class="step-cell comment"># Schemas and test data</div>
+    </div>
+    <div class="time-cell comment"></div>            
+  </div>
+
+  <div class="step-row">
+    <div class="step-container" id="0.15">
+      <div class="step-ref bg-step">15</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>def albumSchema = read(&#39;classpath:schemas/album-schema.json&#39;)</span>
+      </div>
+    </div>
+    <div class="time-cell passed">3</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[5:70]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.16">
+      <div class="step-ref bg-step">16</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>print albumSchema</span>
+      </div>
+    </div>
+    <div class="time-cell passed">1</div>
+  </div>
+
+   
+  
+  
+
+  
+
+  <div class="preformatted" data-parent="0.16">01:59:51.384 [print] {
+  &quot;userId&quot;: &quot;#number&quot;,
+  &quot;id&quot;: &quot;#number&quot;,
+  &quot;title&quot;: &quot;#string&quot;
+}
+ 
+</div>   
+
+  
+
+</div>
+</div>
+          <div data-parent="[5:70]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.17">
+      <div class="step-ref bg-step">17</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>def albumArraySchema = &#39;#[] #(albumSchema)&#39;</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[5:70]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.18">
+      <div class="step-ref bg-step">18</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>print albumArraySchema</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+  <div class="preformatted" data-parent="0.18">01:59:51.385 [print] #[] #(albumSchema) 
+</div>   
+
+  
+
+</div>
+</div>
+          <div data-parent="[5:70]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.19">
+      <div class="step-ref bg-step">19</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>def testDataFile = read(&#39;classpath:testdata/albums.json&#39;)</span>
+      </div>
+    </div>
+    <div class="time-cell passed">1</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[5:70]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.20">
+      <div class="step-ref bg-step">20</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>def utils = read(&#39;classpath:examples/utilities.js&#39;)()</span>
+      </div>
+    </div>
+    <div class="time-cell passed">4</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.71">
+      <div class="step-ref passed">71</div>
+      
+      <div class="step-cell passed">
+        <span>Given</span>&nbsp;<span>path &#39;1&#39;</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.72">
+      <div class="step-ref passed">72</div>
+      
+      <div class="step-cell passed">
+        <span>When</span>&nbsp;<span>method DELETE</span>
+      </div>
+    </div>
+    <div class="time-cell passed">97</div>
+  </div>
+
+   
+  
+  
+
+  
+
+  <div class="preformatted" data-parent="0.72">01:59:51.391 request:
+1 &gt; DELETE https://jsonplaceholder.typicode.com/albums/1
+1 &gt; Accept: application/json
+1 &gt; Content-Type: application/json
+1 &gt; Host: jsonplaceholder.typicode.com
+1 &gt; Connection: Keep-Alive
+1 &gt; User-Agent: Apache-HttpClient/4.5.14 (Java/21.0.9)
+1 &gt; Accept-Encoding: gzip,deflate
+
+
+01:59:51.482 response time in milliseconds: 90
+1 &lt; 200
+1 &lt; Date: Fri, 07 Nov 2025 01:59:51 GMT
+1 &lt; Content-Type: application/json; charset=utf-8
+1 &lt; Transfer-Encoding: chunked
+1 &lt; Connection: keep-alive
+1 &lt; access-control-allow-credentials: true
+1 &lt; Cache-Control: no-cache
+1 &lt; etag: W/&quot;2-vyGp6PvFo4RvsFtPoIWeCReyIC8&quot;
+1 &lt; expires: -1
+1 &lt; nel: {&quot;report_to&quot;:&quot;heroku-nel&quot;,&quot;response_headers&quot;:[&quot;Via&quot;],&quot;max_age&quot;:3600,&quot;success_fraction&quot;:0.01,&quot;failure_fraction&quot;:0.1}
+1 &lt; pragma: no-cache
+1 &lt; report-to: {&quot;group&quot;:&quot;heroku-nel&quot;,&quot;endpoints&quot;:[{&quot;url&quot;:&quot;https://nel.heroku.com/reports?s=nN%2Bh%2BkCtAGyL8E9dQBgn4%2FaHI7gS3rJQiNF2zdlc1ZI%3D\u0026sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d\u0026ts=1762480791&quot;}],&quot;max_age&quot;:3600}
+1 &lt; reporting-endpoints: heroku-nel=&quot;https://nel.heroku.com/reports?s=nN%2Bh%2BkCtAGyL8E9dQBgn4%2FaHI7gS3rJQiNF2zdlc1ZI%3D&amp;sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&amp;ts=1762480791&quot;
+1 &lt; Server: cloudflare
+1 &lt; vary: Origin, Accept-Encoding
+1 &lt; via: 2.0 heroku-router
+1 &lt; x-content-type-options: nosniff
+1 &lt; x-powered-by: Express
+1 &lt; x-ratelimit-limit: 1000
+1 &lt; x-ratelimit-remaining: 997
+1 &lt; x-ratelimit-reset: 1762480849
+1 &lt; cf-cache-status: DYNAMIC
+1 &lt; CF-RAY: 99a93bd27936a62c-IAD
+1 &lt; alt-svc: h3=&quot;:443&quot;; ma=86400
+{}
+
+</div>   
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="0.73">
+      <div class="step-ref passed">73</div>
+      
+      <div class="step-cell passed">
+        <span>Then</span>&nbsp;<span>status 200</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+        </div>
+        <div class="scenario">
+          <div class="scenario-heading" id="[6.1:87]">
+            <div class="heading-container">
+              <div class="scenario-tags">
+                <a class="badge badge-primary" href="karate-tags.html">albums</a><a class="badge badge-primary" href="karate-tags.html">negative</a><a class="badge badge-primary" href="karate-tags.html">api</a>
+              </div>
+              <div class="scenario-keyword">
+                Scenario: <span>[6.1:87]</span>
+                <span class="scenario-name">Validate error handling for invalid requests</span>
+                <span></span>
+              </div>
+            </div>
+            <div class="scenario-time passed">
+              <span>ms:</span>&nbsp;<span>88</span>
+            </div>
+          </div>
+          <div class="step-row">
+            <div class="step-container" id="[6.1:87]bg">
+              <div class="step-ref bg-step">&gt;&gt;</div>
+              <div class="step-cell passed">Background:</div>
+            </div>
+            <div class="time-cell passed"></div>
+          </div>
+          <div data-parent="[6.1:87]bg"><div>
+  
+
+  <div class="step-row">
+    <div class="step-container">
+      <div class="step-ref passed"></div>
+      
+      <div class="step-cell comment"># Global configuration</div>
+    </div>
+    <div class="time-cell comment"></div>            
+  </div>
+
+  <div class="step-row">
+    <div class="step-container" id="1.8">
+      <div class="step-ref bg-step">8</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>def config = { timeout: 5000, baseUrl: #(baseUrl) }</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+  <div class="preformatted" data-parent="1.8">01:59:51.394 karate.env system property was: qa 
+</div>   
+
+  
+
+</div>
+</div>
+          <div data-parent="[6.1:87]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="1.9">
+      <div class="step-ref bg-step">9</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>url config.baseUrl</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[6.1:87]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="1.10">
+      <div class="step-ref bg-step">10</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>path &#39;albums&#39;</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[6.1:87]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="1.11">
+      <div class="step-ref bg-step">11</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>header Accept = &#39;application/json&#39;</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[6.1:87]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="1.12">
+      <div class="step-ref bg-step">12</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>header Content-Type = &#39;application/json&#39;</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[6.1:87]bg"><div>
+  
+
+  <div class="step-row">
+    <div class="step-container">
+      <div class="step-ref passed"></div>
+      
+      <div class="step-cell comment"># Schemas and test data</div>
+    </div>
+    <div class="time-cell comment"></div>            
+  </div>
+
+  <div class="step-row">
+    <div class="step-container" id="1.15">
+      <div class="step-ref bg-step">15</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>def albumSchema = read(&#39;classpath:schemas/album-schema.json&#39;)</span>
+      </div>
+    </div>
+    <div class="time-cell passed">7</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[6.1:87]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="1.16">
+      <div class="step-ref bg-step">16</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>print albumSchema</span>
+      </div>
+    </div>
+    <div class="time-cell passed">1</div>
+  </div>
+
+   
+  
+  
+
+  
+
+  <div class="preformatted" data-parent="1.16">01:59:51.412 [print] {
+  &quot;userId&quot;: &quot;#number&quot;,
+  &quot;id&quot;: &quot;#number&quot;,
+  &quot;title&quot;: &quot;#string&quot;
+}
+ 
+</div>   
+
+  
+
+</div>
+</div>
+          <div data-parent="[6.1:87]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="1.17">
+      <div class="step-ref bg-step">17</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>def albumArraySchema = &#39;#[] #(albumSchema)&#39;</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[6.1:87]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="1.18">
+      <div class="step-ref bg-step">18</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>print albumArraySchema</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+  <div class="preformatted" data-parent="1.18">01:59:51.413 [print] #[] #(albumSchema) 
+</div>   
+
+  
+
+</div>
+</div>
+          <div data-parent="[6.1:87]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="1.19">
+      <div class="step-ref bg-step">19</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>def testDataFile = read(&#39;classpath:testdata/albums.json&#39;)</span>
+      </div>
+    </div>
+    <div class="time-cell passed">1</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[6.1:87]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="1.20">
+      <div class="step-ref bg-step">20</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>def utils = read(&#39;classpath:examples/utilities.js&#39;)()</span>
+      </div>
+    </div>
+    <div class="time-cell passed">5</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="1.77">
+      <div class="step-ref passed">77</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>def errorData = null</span>
+      </div>
+    </div>
+    <div class="time-cell passed">2</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="1.79">
+      <div class="step-ref passed">79</div>
+      
+      <div class="step-cell passed">
+        <span>Given</span>&nbsp;<span>path &#39;999999&#39;</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="1.80">
+      <div class="step-ref passed">80</div>
+      
+      <div class="step-cell passed">
+        <span>And</span>&nbsp;<span>request errorData</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="1.81">
+      <div class="step-ref passed">81</div>
+      
+      <div class="step-cell passed">
+        <span>When</span>&nbsp;<span>method GET</span>
+      </div>
+    </div>
+    <div class="time-cell passed">70</div>
+  </div>
+
+   
+  
+  
+
+  
+
+  <div class="preformatted" data-parent="1.81">01:59:51.426 request:
+1 &gt; GET https://jsonplaceholder.typicode.com/albums/999999
+1 &gt; Accept: application/json
+1 &gt; Content-Type: application/json
+1 &gt; Host: jsonplaceholder.typicode.com
+1 &gt; Connection: Keep-Alive
+1 &gt; User-Agent: Apache-HttpClient/4.5.14 (Java/21.0.9)
+1 &gt; Accept-Encoding: gzip,deflate
+
+
+01:59:51.490 response time in milliseconds: 64
+1 &lt; 404
+1 &lt; Date: Fri, 07 Nov 2025 01:59:51 GMT
+1 &lt; Content-Type: application/json; charset=utf-8
+1 &lt; Transfer-Encoding: chunked
+1 &lt; Connection: keep-alive
+1 &lt; access-control-allow-credentials: true
+1 &lt; Cache-Control: max-age=43200
+1 &lt; etag: W/&quot;2-vyGp6PvFo4RvsFtPoIWeCReyIC8&quot;
+1 &lt; expires: -1
+1 &lt; nel: {&quot;report_to&quot;:&quot;heroku-nel&quot;,&quot;response_headers&quot;:[&quot;Via&quot;],&quot;max_age&quot;:3600,&quot;success_fraction&quot;:0.01,&quot;failure_fraction&quot;:0.1}
+1 &lt; pragma: no-cache
+1 &lt; report-to: {&quot;group&quot;:&quot;heroku-nel&quot;,&quot;endpoints&quot;:[{&quot;url&quot;:&quot;https://nel.heroku.com/reports?s=%2BrsuorMdexiv56tfnD5SxdUjnlCkPQMuavwdb3lc%2BUs%3D\u0026sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d\u0026ts=1762466937&quot;}],&quot;max_age&quot;:3600}
+1 &lt; reporting-endpoints: heroku-nel=&quot;https://nel.heroku.com/reports?s=%2BrsuorMdexiv56tfnD5SxdUjnlCkPQMuavwdb3lc%2BUs%3D&amp;sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&amp;ts=1762466937&quot;
+1 &lt; Server: cloudflare
+1 &lt; vary: Origin, Accept-Encoding
+1 &lt; via: 2.0 heroku-router
+1 &lt; x-content-type-options: nosniff
+1 &lt; x-powered-by: Express
+1 &lt; x-ratelimit-limit: 1000
+1 &lt; x-ratelimit-remaining: 993
+1 &lt; x-ratelimit-reset: 1762466988
+1 &lt; Age: 13853
+1 &lt; cf-cache-status: HIT
+1 &lt; CF-RAY: 99a93bd2aff58221-IAD
+1 &lt; alt-svc: h3=&quot;:443&quot;; ma=86400
+{}
+
+</div>   
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="1.82">
+      <div class="step-ref passed">82</div>
+      
+      <div class="step-cell passed">
+        <span>Then</span>&nbsp;<span>status 404</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="1.83">
+      <div class="step-ref passed">83</div>
+      
+      <div class="step-cell passed">
+        <span>And</span>&nbsp;<span>match response == {}</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+        </div>
+        <div class="scenario">
+          <div class="scenario-heading" id="[6.2:88]">
+            <div class="heading-container">
+              <div class="scenario-tags">
+                <a class="badge badge-primary" href="karate-tags.html">albums</a><a class="badge badge-primary" href="karate-tags.html">negative</a><a class="badge badge-primary" href="karate-tags.html">api</a>
+              </div>
+              <div class="scenario-keyword">
+                Scenario: <span>[6.2:88]</span>
+                <span class="scenario-name">Validate error handling for invalid requests</span>
+                <span></span>
+              </div>
+            </div>
+            <div class="scenario-time passed">
+              <span>ms:</span>&nbsp;<span>119</span>
+            </div>
+          </div>
+          <div class="step-row">
+            <div class="step-container" id="[6.2:88]bg">
+              <div class="step-ref bg-step">&gt;&gt;</div>
+              <div class="step-cell passed">Background:</div>
+            </div>
+            <div class="time-cell passed"></div>
+          </div>
+          <div data-parent="[6.2:88]bg"><div>
+  
+
+  <div class="step-row">
+    <div class="step-container">
+      <div class="step-ref passed"></div>
+      
+      <div class="step-cell comment"># Global configuration</div>
+    </div>
+    <div class="time-cell comment"></div>            
+  </div>
+
+  <div class="step-row">
+    <div class="step-container" id="2.8">
+      <div class="step-ref bg-step">8</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>def config = { timeout: 5000, baseUrl: #(baseUrl) }</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+  <div class="preformatted" data-parent="2.8">01:59:51.401 karate.env system property was: qa 
+</div>   
+
+  
+
+</div>
+</div>
+          <div data-parent="[6.2:88]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="2.9">
+      <div class="step-ref bg-step">9</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>url config.baseUrl</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[6.2:88]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="2.10">
+      <div class="step-ref bg-step">10</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>path &#39;albums&#39;</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[6.2:88]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="2.11">
+      <div class="step-ref bg-step">11</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>header Accept = &#39;application/json&#39;</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[6.2:88]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="2.12">
+      <div class="step-ref bg-step">12</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>header Content-Type = &#39;application/json&#39;</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[6.2:88]bg"><div>
+  
+
+  <div class="step-row">
+    <div class="step-container">
+      <div class="step-ref passed"></div>
+      
+      <div class="step-cell comment"># Schemas and test data</div>
+    </div>
+    <div class="time-cell comment"></div>            
+  </div>
+
+  <div class="step-row">
+    <div class="step-container" id="2.15">
+      <div class="step-ref bg-step">15</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>def albumSchema = read(&#39;classpath:schemas/album-schema.json&#39;)</span>
+      </div>
+    </div>
+    <div class="time-cell passed">1</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[6.2:88]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="2.16">
+      <div class="step-ref bg-step">16</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>print albumSchema</span>
+      </div>
+    </div>
+    <div class="time-cell passed">1</div>
+  </div>
+
+   
+  
+  
+
+  
+
+  <div class="preformatted" data-parent="2.16">01:59:51.418 [print] {
+  &quot;userId&quot;: &quot;#number&quot;,
+  &quot;id&quot;: &quot;#number&quot;,
+  &quot;title&quot;: &quot;#string&quot;
+}
+ 
+</div>   
+
+  
+
+</div>
+</div>
+          <div data-parent="[6.2:88]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="2.17">
+      <div class="step-ref bg-step">17</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>def albumArraySchema = &#39;#[] #(albumSchema)&#39;</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[6.2:88]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="2.18">
+      <div class="step-ref bg-step">18</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>print albumArraySchema</span>
+      </div>
+    </div>
+    <div class="time-cell passed">3</div>
+  </div>
+
+   
+  
+  
+
+  
+
+  <div class="preformatted" data-parent="2.18">01:59:51.421 [print] #[] #(albumSchema) 
+</div>   
+
+  
+
+</div>
+</div>
+          <div data-parent="[6.2:88]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="2.19">
+      <div class="step-ref bg-step">19</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>def testDataFile = read(&#39;classpath:testdata/albums.json&#39;)</span>
+      </div>
+    </div>
+    <div class="time-cell passed">1</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[6.2:88]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="2.20">
+      <div class="step-ref bg-step">20</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>def utils = read(&#39;classpath:examples/utilities.js&#39;)()</span>
+      </div>
+    </div>
+    <div class="time-cell passed">1</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="2.77">
+      <div class="step-ref passed">77</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>def errorData = null</span>
+      </div>
+    </div>
+    <div class="time-cell passed">1</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="2.79">
+      <div class="step-ref passed">79</div>
+      
+      <div class="step-cell passed">
+        <span>Given</span>&nbsp;<span>path &#39;999999&#39;</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="2.80">
+      <div class="step-ref passed">80</div>
+      
+      <div class="step-cell passed">
+        <span>And</span>&nbsp;<span>request errorData</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="2.81">
+      <div class="step-ref passed">81</div>
+      
+      <div class="step-cell passed">
+        <span>When</span>&nbsp;<span>method DELETE</span>
+      </div>
+    </div>
+    <div class="time-cell passed">110</div>
+  </div>
+
+   
+  
+  
+
+  
+
+  <div class="preformatted" data-parent="2.81">01:59:51.431 request:
+1 &gt; DELETE https://jsonplaceholder.typicode.com/albums/999999
+1 &gt; Accept: application/json
+1 &gt; Content-Type: application/json
+1 &gt; Host: jsonplaceholder.typicode.com
+1 &gt; Connection: Keep-Alive
+1 &gt; User-Agent: Apache-HttpClient/4.5.14 (Java/21.0.9)
+1 &gt; Accept-Encoding: gzip,deflate
+
+
+01:59:51.533 response time in milliseconds: 102
+1 &lt; 200
+1 &lt; Date: Fri, 07 Nov 2025 01:59:51 GMT
+1 &lt; Content-Type: application/json; charset=utf-8
+1 &lt; Transfer-Encoding: chunked
+1 &lt; Connection: keep-alive
+1 &lt; access-control-allow-credentials: true
+1 &lt; Cache-Control: no-cache
+1 &lt; etag: W/&quot;2-vyGp6PvFo4RvsFtPoIWeCReyIC8&quot;
+1 &lt; expires: -1
+1 &lt; nel: {&quot;report_to&quot;:&quot;heroku-nel&quot;,&quot;response_headers&quot;:[&quot;Via&quot;],&quot;max_age&quot;:3600,&quot;success_fraction&quot;:0.01,&quot;failure_fraction&quot;:0.1}
+1 &lt; pragma: no-cache
+1 &lt; report-to: {&quot;group&quot;:&quot;heroku-nel&quot;,&quot;endpoints&quot;:[{&quot;url&quot;:&quot;https://nel.heroku.com/reports?s=nN%2Bh%2BkCtAGyL8E9dQBgn4%2FaHI7gS3rJQiNF2zdlc1ZI%3D\u0026sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d\u0026ts=1762480791&quot;}],&quot;max_age&quot;:3600}
+1 &lt; reporting-endpoints: heroku-nel=&quot;https://nel.heroku.com/reports?s=nN%2Bh%2BkCtAGyL8E9dQBgn4%2FaHI7gS3rJQiNF2zdlc1ZI%3D&amp;sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&amp;ts=1762480791&quot;
+1 &lt; Server: cloudflare
+1 &lt; vary: Origin, Accept-Encoding
+1 &lt; via: 2.0 heroku-router
+1 &lt; x-content-type-options: nosniff
+1 &lt; x-powered-by: Express
+1 &lt; x-ratelimit-limit: 1000
+1 &lt; x-ratelimit-remaining: 995
+1 &lt; x-ratelimit-reset: 1762480849
+1 &lt; cf-cache-status: DYNAMIC
+1 &lt; CF-RAY: 99a93bd2cba7c5b6-IAD
+1 &lt; alt-svc: h3=&quot;:443&quot;; ma=86400
+{}
+
+</div>   
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="2.82">
+      <div class="step-ref passed">82</div>
+      
+      <div class="step-cell passed">
+        <span>Then</span>&nbsp;<span>status 200</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="2.83">
+      <div class="step-ref passed">83</div>
+      
+      <div class="step-cell passed">
+        <span>And</span>&nbsp;<span>match response == {}</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+        </div>
+        <div class="scenario">
+          <div class="scenario-heading" id="[7.1:101]">
+            <div class="heading-container">
+              <div class="scenario-tags">
+                <a class="badge badge-primary" href="karate-tags.html">albums</a><a class="badge badge-primary" href="karate-tags.html">negative</a><a class="badge badge-primary" href="karate-tags.html">api</a><a class="badge badge-primary" href="karate-tags.html">validation</a>
+              </div>
+              <div class="scenario-keyword">
+                Scenario: <span>[7.1:101]</span>
+                <span class="scenario-name">Validate album data validation</span>
+                <span></span>
+              </div>
+            </div>
+            <div class="scenario-time passed">
+              <span>ms:</span>&nbsp;<span>118</span>
+            </div>
+          </div>
+          <div class="step-row">
+            <div class="step-container" id="[7.1:101]bg">
+              <div class="step-ref bg-step">&gt;&gt;</div>
+              <div class="step-cell passed">Background:</div>
+            </div>
+            <div class="time-cell passed"></div>
+          </div>
+          <div data-parent="[7.1:101]bg"><div>
+  
+
+  <div class="step-row">
+    <div class="step-container">
+      <div class="step-ref passed"></div>
+      
+      <div class="step-cell comment"># Global configuration</div>
+    </div>
+    <div class="time-cell comment"></div>            
+  </div>
+
+  <div class="step-row">
+    <div class="step-container" id="1.8">
+      <div class="step-ref bg-step">8</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>def config = { timeout: 5000, baseUrl: #(baseUrl) }</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+  <div class="preformatted" data-parent="1.8">01:59:51.405 karate.env system property was: qa 
+</div>   
+
+  
+
+</div>
+</div>
+          <div data-parent="[7.1:101]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="1.9">
+      <div class="step-ref bg-step">9</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>url config.baseUrl</span>
+      </div>
+    </div>
+    <div class="time-cell passed">6</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[7.1:101]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="1.10">
+      <div class="step-ref bg-step">10</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>path &#39;albums&#39;</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[7.1:101]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="1.11">
+      <div class="step-ref bg-step">11</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>header Accept = &#39;application/json&#39;</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[7.1:101]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="1.12">
+      <div class="step-ref bg-step">12</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>header Content-Type = &#39;application/json&#39;</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[7.1:101]bg"><div>
+  
+
+  <div class="step-row">
+    <div class="step-container">
+      <div class="step-ref passed"></div>
+      
+      <div class="step-cell comment"># Schemas and test data</div>
+    </div>
+    <div class="time-cell comment"></div>            
+  </div>
+
+  <div class="step-row">
+    <div class="step-container" id="1.15">
+      <div class="step-ref bg-step">15</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>def albumSchema = read(&#39;classpath:schemas/album-schema.json&#39;)</span>
+      </div>
+    </div>
+    <div class="time-cell passed">1</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[7.1:101]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="1.16">
+      <div class="step-ref bg-step">16</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>print albumSchema</span>
+      </div>
+    </div>
+    <div class="time-cell passed">1</div>
+  </div>
+
+   
+  
+  
+
+  
+
+  <div class="preformatted" data-parent="1.16">01:59:51.416 [print] {
+  &quot;userId&quot;: &quot;#number&quot;,
+  &quot;id&quot;: &quot;#number&quot;,
+  &quot;title&quot;: &quot;#string&quot;
+}
+ 
+</div>   
+
+  
+
+</div>
+</div>
+          <div data-parent="[7.1:101]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="1.17">
+      <div class="step-ref bg-step">17</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>def albumArraySchema = &#39;#[] #(albumSchema)&#39;</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[7.1:101]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="1.18">
+      <div class="step-ref bg-step">18</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>print albumArraySchema</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+  <div class="preformatted" data-parent="1.18">01:59:51.417 [print] #[] #(albumSchema) 
+</div>   
+
+  
+
+</div>
+</div>
+          <div data-parent="[7.1:101]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="1.19">
+      <div class="step-ref bg-step">19</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>def testDataFile = read(&#39;classpath:testdata/albums.json&#39;)</span>
+      </div>
+    </div>
+    <div class="time-cell passed">10</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[7.1:101]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="1.20">
+      <div class="step-ref bg-step">20</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>def utils = read(&#39;classpath:examples/utilities.js&#39;)()</span>
+      </div>
+    </div>
+    <div class="time-cell passed">1</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="1.92">
+      <div class="step-ref passed">92</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>def invalidData = { userId: 1, title: &#39;&#39; }</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="1.94">
+      <div class="step-ref passed">94</div>
+      
+      <div class="step-cell passed">
+        <span>Given</span>&nbsp;<span>request invalidData</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="1.95">
+      <div class="step-ref passed">95</div>
+      
+      <div class="step-cell passed">
+        <span>When</span>&nbsp;<span>method POST</span>
+      </div>
+    </div>
+    <div class="time-cell passed">98</div>
+  </div>
+
+   
+  
+  
+
+  
+
+  <div class="preformatted" data-parent="1.95">01:59:51.429 request:
+1 &gt; POST https://jsonplaceholder.typicode.com/albums
+1 &gt; Accept: application/json
+1 &gt; Content-Type: application/json; charset=UTF-8
+1 &gt; Content-Length: 23
+1 &gt; Host: jsonplaceholder.typicode.com
+1 &gt; Connection: Keep-Alive
+1 &gt; User-Agent: Apache-HttpClient/4.5.14 (Java/21.0.9)
+1 &gt; Accept-Encoding: gzip,deflate
+{&quot;userId&quot;:1,&quot;title&quot;:&quot;&quot;}
+
+01:59:51.522 response time in milliseconds: 92
+1 &lt; 201
+1 &lt; Date: Fri, 07 Nov 2025 01:59:51 GMT
+1 &lt; Content-Type: application/json; charset=utf-8
+1 &lt; Content-Length: 45
+1 &lt; Connection: keep-alive
+1 &lt; access-control-allow-credentials: true
+1 &lt; access-control-expose-headers: Location
+1 &lt; Cache-Control: no-cache
+1 &lt; etag: W/&quot;2d-n0RIN263/Gg861NhjgbC/Uqa0+s&quot;
+1 &lt; expires: -1
+1 &lt; location: https://jsonplaceholder.typicode.com/albums/101
+1 &lt; nel: {&quot;report_to&quot;:&quot;heroku-nel&quot;,&quot;response_headers&quot;:[&quot;Via&quot;],&quot;max_age&quot;:3600,&quot;success_fraction&quot;:0.01,&quot;failure_fraction&quot;:0.1}
+1 &lt; pragma: no-cache
+1 &lt; report-to: {&quot;group&quot;:&quot;heroku-nel&quot;,&quot;endpoints&quot;:[{&quot;url&quot;:&quot;https://nel.heroku.com/reports?s=nN%2Bh%2BkCtAGyL8E9dQBgn4%2FaHI7gS3rJQiNF2zdlc1ZI%3D\u0026sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d\u0026ts=1762480791&quot;}],&quot;max_age&quot;:3600}
+1 &lt; reporting-endpoints: heroku-nel=&quot;https://nel.heroku.com/reports?s=nN%2Bh%2BkCtAGyL8E9dQBgn4%2FaHI7gS3rJQiNF2zdlc1ZI%3D&amp;sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&amp;ts=1762480791&quot;
+1 &lt; Server: cloudflare
+1 &lt; vary: Origin, X-HTTP-Method-Override, Accept-Encoding
+1 &lt; via: 2.0 heroku-router
+1 &lt; x-content-type-options: nosniff
+1 &lt; x-powered-by: Express
+1 &lt; x-ratelimit-limit: 1000
+1 &lt; x-ratelimit-remaining: 996
+1 &lt; x-ratelimit-reset: 1762480849
+1 &lt; cf-cache-status: DYNAMIC
+1 &lt; CF-RAY: 99a93bd2dad838b3-IAD
+1 &lt; alt-svc: h3=&quot;:443&quot;; ma=86400
+{
+  &quot;userId&quot;: 1,
+  &quot;title&quot;: &quot;&quot;,
+  &quot;id&quot;: 101
+}
+
+</div>   
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="1.96">
+      <div class="step-ref passed">96</div>
+      
+      <div class="step-cell passed">
+        <span>Then</span>&nbsp;<span>status 201</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="1.97">
+      <div class="step-ref passed">97</div>
+      
+      <div class="step-cell passed">
+        <span>And</span>&nbsp;<span>match response contains { id: &#39;#number&#39; }</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+        </div>
+        <div class="scenario">
+          <div class="scenario-heading" id="[7.2:102]">
+            <div class="heading-container">
+              <div class="scenario-tags">
+                <a class="badge badge-primary" href="karate-tags.html">albums</a><a class="badge badge-primary" href="karate-tags.html">negative</a><a class="badge badge-primary" href="karate-tags.html">api</a><a class="badge badge-primary" href="karate-tags.html">validation</a>
+              </div>
+              <div class="scenario-keyword">
+                Scenario: <span>[7.2:102]</span>
+                <span class="scenario-name">Validate album data validation</span>
+                <span></span>
+              </div>
+            </div>
+            <div class="scenario-time passed">
+              <span>ms:</span>&nbsp;<span>102</span>
+            </div>
+          </div>
+          <div class="step-row">
+            <div class="step-container" id="[7.2:102]bg">
+              <div class="step-ref bg-step">&gt;&gt;</div>
+              <div class="step-cell passed">Background:</div>
+            </div>
+            <div class="time-cell passed"></div>
+          </div>
+          <div data-parent="[7.2:102]bg"><div>
+  
+
+  <div class="step-row">
+    <div class="step-container">
+      <div class="step-ref passed"></div>
+      
+      <div class="step-cell comment"># Global configuration</div>
+    </div>
+    <div class="time-cell comment"></div>            
+  </div>
+
+  <div class="step-row">
+    <div class="step-container" id="2.8">
+      <div class="step-ref bg-step">8</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>def config = { timeout: 5000, baseUrl: #(baseUrl) }</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+  <div class="preformatted" data-parent="2.8">01:59:51.498 karate.env system property was: qa 
+</div>   
+
+  
+
+</div>
+</div>
+          <div data-parent="[7.2:102]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="2.9">
+      <div class="step-ref bg-step">9</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>url config.baseUrl</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[7.2:102]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="2.10">
+      <div class="step-ref bg-step">10</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>path &#39;albums&#39;</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[7.2:102]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="2.11">
+      <div class="step-ref bg-step">11</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>header Accept = &#39;application/json&#39;</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[7.2:102]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="2.12">
+      <div class="step-ref bg-step">12</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>header Content-Type = &#39;application/json&#39;</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[7.2:102]bg"><div>
+  
+
+  <div class="step-row">
+    <div class="step-container">
+      <div class="step-ref passed"></div>
+      
+      <div class="step-cell comment"># Schemas and test data</div>
+    </div>
+    <div class="time-cell comment"></div>            
+  </div>
+
+  <div class="step-row">
+    <div class="step-container" id="2.15">
+      <div class="step-ref bg-step">15</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>def albumSchema = read(&#39;classpath:schemas/album-schema.json&#39;)</span>
+      </div>
+    </div>
+    <div class="time-cell passed">1</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[7.2:102]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="2.16">
+      <div class="step-ref bg-step">16</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>print albumSchema</span>
+      </div>
+    </div>
+    <div class="time-cell passed">4</div>
+  </div>
+
+   
+  
+  
+
+  
+
+  <div class="preformatted" data-parent="2.16">01:59:51.509 [print] {
+  &quot;userId&quot;: &quot;#number&quot;,
+  &quot;id&quot;: &quot;#number&quot;,
+  &quot;title&quot;: &quot;#string&quot;
+}
+ 
+</div>   
+
+  
+
+</div>
+</div>
+          <div data-parent="[7.2:102]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="2.17">
+      <div class="step-ref bg-step">17</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>def albumArraySchema = &#39;#[] #(albumSchema)&#39;</span>
+      </div>
+    </div>
+    <div class="time-cell passed">2</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[7.2:102]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="2.18">
+      <div class="step-ref bg-step">18</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>print albumArraySchema</span>
+      </div>
+    </div>
+    <div class="time-cell passed">1</div>
+  </div>
+
+   
+  
+  
+
+  
+
+  <div class="preformatted" data-parent="2.18">01:59:51.512 [print] #[] #(albumSchema) 
+</div>   
+
+  
+
+</div>
+</div>
+          <div data-parent="[7.2:102]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="2.19">
+      <div class="step-ref bg-step">19</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>def testDataFile = read(&#39;classpath:testdata/albums.json&#39;)</span>
+      </div>
+    </div>
+    <div class="time-cell passed">1</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[7.2:102]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="2.20">
+      <div class="step-ref bg-step">20</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>def utils = read(&#39;classpath:examples/utilities.js&#39;)()</span>
+      </div>
+    </div>
+    <div class="time-cell passed">1</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="2.92">
+      <div class="step-ref passed">92</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>def invalidData = { userId: 0, title: &#39;Invalid User&#39; }</span>
+      </div>
+    </div>
+    <div class="time-cell passed">3</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="2.94">
+      <div class="step-ref passed">94</div>
+      
+      <div class="step-cell passed">
+        <span>Given</span>&nbsp;<span>request invalidData</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="2.95">
+      <div class="step-ref passed">95</div>
+      
+      <div class="step-cell passed">
+        <span>When</span>&nbsp;<span>method POST</span>
+      </div>
+    </div>
+    <div class="time-cell passed">88</div>
+  </div>
+
+   
+  
+  
+
+  
+
+  <div class="preformatted" data-parent="2.95">01:59:51.518 request:
+1 &gt; POST https://jsonplaceholder.typicode.com/albums
+1 &gt; Accept: application/json
+1 &gt; Content-Type: application/json; charset=UTF-8
+1 &gt; Content-Length: 35
+1 &gt; Host: jsonplaceholder.typicode.com
+1 &gt; Connection: Keep-Alive
+1 &gt; User-Agent: Apache-HttpClient/4.5.14 (Java/21.0.9)
+1 &gt; Accept-Encoding: gzip,deflate
+{&quot;userId&quot;:0,&quot;title&quot;:&quot;Invalid User&quot;}
+
+01:59:51.604 response time in milliseconds: 84
+1 &lt; 201
+1 &lt; Date: Fri, 07 Nov 2025 01:59:51 GMT
+1 &lt; Content-Type: application/json; charset=utf-8
+1 &lt; Content-Length: 57
+1 &lt; Connection: keep-alive
+1 &lt; access-control-allow-credentials: true
+1 &lt; access-control-expose-headers: Location
+1 &lt; Cache-Control: no-cache
+1 &lt; etag: W/&quot;39-2R4I5HHlpoE62OubRRqFlgjvEmI&quot;
+1 &lt; expires: -1
+1 &lt; location: https://jsonplaceholder.typicode.com/albums/101
+1 &lt; nel: {&quot;report_to&quot;:&quot;heroku-nel&quot;,&quot;response_headers&quot;:[&quot;Via&quot;],&quot;max_age&quot;:3600,&quot;success_fraction&quot;:0.01,&quot;failure_fraction&quot;:0.1}
+1 &lt; pragma: no-cache
+1 &lt; report-to: {&quot;group&quot;:&quot;heroku-nel&quot;,&quot;endpoints&quot;:[{&quot;url&quot;:&quot;https://nel.heroku.com/reports?s=nN%2Bh%2BkCtAGyL8E9dQBgn4%2FaHI7gS3rJQiNF2zdlc1ZI%3D\u0026sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d\u0026ts=1762480791&quot;}],&quot;max_age&quot;:3600}
+1 &lt; reporting-endpoints: heroku-nel=&quot;https://nel.heroku.com/reports?s=nN%2Bh%2BkCtAGyL8E9dQBgn4%2FaHI7gS3rJQiNF2zdlc1ZI%3D&amp;sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&amp;ts=1762480791&quot;
+1 &lt; Server: cloudflare
+1 &lt; vary: Origin, X-HTTP-Method-Override, Accept-Encoding
+1 &lt; via: 2.0 heroku-router
+1 &lt; x-content-type-options: nosniff
+1 &lt; x-powered-by: Express
+1 &lt; x-ratelimit-limit: 1000
+1 &lt; x-ratelimit-remaining: 994
+1 &lt; x-ratelimit-reset: 1762480849
+1 &lt; cf-cache-status: DYNAMIC
+1 &lt; CF-RAY: 99a93bd33b4c05e9-IAD
+1 &lt; alt-svc: h3=&quot;:443&quot;; ma=86400
+{
+  &quot;userId&quot;: 0,
+  &quot;title&quot;: &quot;Invalid User&quot;,
+  &quot;id&quot;: 101
+}
+
+</div>   
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="2.96">
+      <div class="step-ref passed">96</div>
+      
+      <div class="step-cell passed">
+        <span>Then</span>&nbsp;<span>status 201</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="2.97">
+      <div class="step-ref passed">97</div>
+      
+      <div class="step-cell passed">
+        <span>And</span>&nbsp;<span>match response contains { id: &#39;#number&#39; }</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+        </div>
+        <div class="scenario">
+          <div class="scenario-heading" id="[7.3:103]">
+            <div class="heading-container">
+              <div class="scenario-tags">
+                <a class="badge badge-primary" href="karate-tags.html">albums</a><a class="badge badge-primary" href="karate-tags.html">negative</a><a class="badge badge-primary" href="karate-tags.html">api</a><a class="badge badge-primary" href="karate-tags.html">validation</a>
+              </div>
+              <div class="scenario-keyword">
+                Scenario: <span>[7.3:103]</span>
+                <span class="scenario-name">Validate album data validation</span>
+                <span></span>
+              </div>
+            </div>
+            <div class="scenario-time passed">
+              <span>ms:</span>&nbsp;<span>118</span>
+            </div>
+          </div>
+          <div class="step-row">
+            <div class="step-container" id="[7.3:103]bg">
+              <div class="step-ref bg-step">&gt;&gt;</div>
+              <div class="step-cell passed">Background:</div>
+            </div>
+            <div class="time-cell passed"></div>
+          </div>
+          <div data-parent="[7.3:103]bg"><div>
+  
+
+  <div class="step-row">
+    <div class="step-container">
+      <div class="step-ref passed"></div>
+      
+      <div class="step-cell comment"># Global configuration</div>
+    </div>
+    <div class="time-cell comment"></div>            
+  </div>
+
+  <div class="step-row">
+    <div class="step-container" id="3.8">
+      <div class="step-ref bg-step">8</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>def config = { timeout: 5000, baseUrl: #(baseUrl) }</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+  <div class="preformatted" data-parent="3.8">01:59:51.514 karate.env system property was: qa 
+</div>   
+
+  
+
+</div>
+</div>
+          <div data-parent="[7.3:103]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="3.9">
+      <div class="step-ref bg-step">9</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>url config.baseUrl</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[7.3:103]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="3.10">
+      <div class="step-ref bg-step">10</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>path &#39;albums&#39;</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[7.3:103]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="3.11">
+      <div class="step-ref bg-step">11</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>header Accept = &#39;application/json&#39;</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[7.3:103]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="3.12">
+      <div class="step-ref bg-step">12</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>header Content-Type = &#39;application/json&#39;</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[7.3:103]bg"><div>
+  
+
+  <div class="step-row">
+    <div class="step-container">
+      <div class="step-ref passed"></div>
+      
+      <div class="step-cell comment"># Schemas and test data</div>
+    </div>
+    <div class="time-cell comment"></div>            
+  </div>
+
+  <div class="step-row">
+    <div class="step-container" id="3.15">
+      <div class="step-ref bg-step">15</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>def albumSchema = read(&#39;classpath:schemas/album-schema.json&#39;)</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[7.3:103]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="3.16">
+      <div class="step-ref bg-step">16</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>print albumSchema</span>
+      </div>
+    </div>
+    <div class="time-cell passed">3</div>
+  </div>
+
+   
+  
+  
+
+  
+
+  <div class="preformatted" data-parent="3.16">01:59:51.521 [print] {
+  &quot;userId&quot;: &quot;#number&quot;,
+  &quot;id&quot;: &quot;#number&quot;,
+  &quot;title&quot;: &quot;#string&quot;
+}
+ 
+</div>   
+
+  
+
+</div>
+</div>
+          <div data-parent="[7.3:103]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="3.17">
+      <div class="step-ref bg-step">17</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>def albumArraySchema = &#39;#[] #(albumSchema)&#39;</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[7.3:103]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="3.18">
+      <div class="step-ref bg-step">18</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>print albumArraySchema</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+  <div class="preformatted" data-parent="3.18">01:59:51.522 [print] #[] #(albumSchema) 
+</div>   
+
+  
+
+</div>
+</div>
+          <div data-parent="[7.3:103]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="3.19">
+      <div class="step-ref bg-step">19</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>def testDataFile = read(&#39;classpath:testdata/albums.json&#39;)</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div data-parent="[7.3:103]bg"><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="3.20">
+      <div class="step-ref bg-step">20</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>def utils = read(&#39;classpath:examples/utilities.js&#39;)()</span>
+      </div>
+    </div>
+    <div class="time-cell passed">1</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="3.92">
+      <div class="step-ref passed">92</div>
+      
+      <div class="step-cell passed">
+        <span>*</span>&nbsp;<span>def invalidData = { userId: null, title: &#39;No User&#39; }</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="3.94">
+      <div class="step-ref passed">94</div>
+      
+      <div class="step-cell passed">
+        <span>Given</span>&nbsp;<span>request invalidData</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="3.95">
+      <div class="step-ref passed">95</div>
+      
+      <div class="step-cell passed">
+        <span>When</span>&nbsp;<span>method POST</span>
+      </div>
+    </div>
+    <div class="time-cell passed">111</div>
+  </div>
+
+   
+  
+  
+
+  
+
+  <div class="preformatted" data-parent="3.95">01:59:51.528 request:
+1 &gt; POST https://jsonplaceholder.typicode.com/albums
+1 &gt; Accept: application/json
+1 &gt; Content-Type: application/json; charset=UTF-8
+1 &gt; Content-Length: 33
+1 &gt; Host: jsonplaceholder.typicode.com
+1 &gt; Connection: Keep-Alive
+1 &gt; User-Agent: Apache-HttpClient/4.5.14 (Java/21.0.9)
+1 &gt; Accept-Encoding: gzip,deflate
+{&quot;userId&quot;:null,&quot;title&quot;:&quot;No User&quot;}
+
+01:59:51.634 response time in milliseconds: 105
+1 &lt; 201
+1 &lt; Date: Fri, 07 Nov 2025 01:59:51 GMT
+1 &lt; Content-Type: application/json; charset=utf-8
+1 &lt; Content-Length: 55
+1 &lt; Connection: keep-alive
+1 &lt; access-control-allow-credentials: true
+1 &lt; access-control-expose-headers: Location
+1 &lt; Cache-Control: no-cache
+1 &lt; etag: W/&quot;37-HF1YuLD54Dw4e9VYANV0WaS0ktU&quot;
+1 &lt; expires: -1
+1 &lt; location: https://jsonplaceholder.typicode.com/albums/101
+1 &lt; nel: {&quot;report_to&quot;:&quot;heroku-nel&quot;,&quot;response_headers&quot;:[&quot;Via&quot;],&quot;max_age&quot;:3600,&quot;success_fraction&quot;:0.01,&quot;failure_fraction&quot;:0.1}
+1 &lt; pragma: no-cache
+1 &lt; report-to: {&quot;group&quot;:&quot;heroku-nel&quot;,&quot;endpoints&quot;:[{&quot;url&quot;:&quot;https://nel.heroku.com/reports?s=nN%2Bh%2BkCtAGyL8E9dQBgn4%2FaHI7gS3rJQiNF2zdlc1ZI%3D\u0026sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d\u0026ts=1762480791&quot;}],&quot;max_age&quot;:3600}
+1 &lt; reporting-endpoints: heroku-nel=&quot;https://nel.heroku.com/reports?s=nN%2Bh%2BkCtAGyL8E9dQBgn4%2FaHI7gS3rJQiNF2zdlc1ZI%3D&amp;sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&amp;ts=1762480791&quot;
+1 &lt; Server: cloudflare
+1 &lt; vary: Origin, X-HTTP-Method-Override, Accept-Encoding
+1 &lt; via: 2.0 heroku-router
+1 &lt; x-content-type-options: nosniff
+1 &lt; x-powered-by: Express
+1 &lt; x-ratelimit-limit: 1000
+1 &lt; x-ratelimit-remaining: 993
+1 &lt; x-ratelimit-reset: 1762480849
+1 &lt; cf-cache-status: DYNAMIC
+1 &lt; CF-RAY: 99a93bd34e3e0586-IAD
+1 &lt; alt-svc: h3=&quot;:443&quot;; ma=86400
+{
+  &quot;userId&quot;: null,
+  &quot;title&quot;: &quot;No User&quot;,
+  &quot;id&quot;: 101
+}
+
+</div>   
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="3.96">
+      <div class="step-ref passed">96</div>
+      
+      <div class="step-cell passed">
+        <span>Then</span>&nbsp;<span>status 201</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+          <div><div>
+  
+
+  
+
+  <div class="step-row">
+    <div class="step-container" id="3.97">
+      <div class="step-ref passed">97</div>
+      
+      <div class="step-cell passed">
+        <span>And</span>&nbsp;<span>match response contains { id: &#39;#number&#39; }</span>
+      </div>
+    </div>
+    <div class="time-cell passed">0</div>
+  </div>
+
+   
+  
+  
+
+  
+
+     
+
+  
+
+</div>
+</div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+

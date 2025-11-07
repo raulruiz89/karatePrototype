@@ -1,60 +1,121 @@
 name: Karate Tests
 
 on:
-  pull_request:
-    branches: [ main, develop ]
   push:
     branches: [ main, develop ]
-  workflow_dispatch:  # Enables manual trigger
+  pull_request:
+    branches: [ main, develop ]
+  workflow_dispatch:
   schedule:
-    - cron: '0 0 * * 0'  # Ejecutar cada domingo a medianoche
+    - cron: '0 0 * * 0'  # every Sunday 00:00 UTC
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
-# Allow only one concurrent deployment
 concurrency:
   group: "pages"
   cancel-in-progress: false
 
 jobs:
   test:
+    # avoid infinite loop when the bot commits docs/
+    if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
+    env:
+      BRANCH_NAME: ${{ github.ref_name }}
+      RUN_ID: ${{ github.run_number }}
+      REPORTS_SUBDIR: reports/${{ github.ref_name }}
+      RUN_DIR: run-${{ github.run_number }}
+
     steps:
-      - uses: actions/checkout@v4
-      
+      - name: Checkout current branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+
       - name: Set up JDK 21
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           java-version: '21'
           distribution: 'temurin'
           cache: 'maven'
-          
-      - name: Run Tests
-        run: mvn clean test
-        
-      - name: Upload Karate Reports
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: karate-reports
-          path: target/karate-reports
-          retention-days: 30
-          
-      # Setup Pages
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
 
-      # Upload artifact
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v2
-        with:
-          path: 'target/karate-reports'
+      - name: Run tests
+        run: mvn -q -DskipTests=false clean test
 
-      # Deploy to GitHub Pages
-      - name: Deploy to GitHub Pages
-        id: deployment
-        if: github.ref == 'refs/heads/main'
-        uses: actions/deploy-pages@v3
+      - name: Ensure build produced Karate reports
+        id: have_reports
+        run: |
+          if [ ! -d target/karate-reports ]; then
+            echo "found=false" >> "$GITHUB_OUTPUT"
+            echo "No Karate reports found, skipping publication."
+          else
+            echo "found=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Prepare reports payload
+        if: steps.have_reports.outputs.found == 'true'
+        run: |
+          mkdir -p payload/${REPORTS_SUBDIR}/${RUN_DIR}
+          cp -r target/karate-reports/* "payload/${REPORTS_SUBDIR}/${RUN_DIR}/"
+          # branch alias "latest"
+          rm -rf "payload/${REPORTS_SUBDIR}/latest" || true
+          mkdir -p "payload/${REPORTS_SUBDIR}"
+          cp -r target/karate-reports "payload/${REPORTS_SUBDIR}/latest"
+          # simple root index for convenience
+          cat > payload/index.html <<'HTML'
+          <!doctype html><meta charset="utf-8">
+          <title>Karate Reports</title>
+          <h1>Karate Reports</h1>
+          <ul>
+            <li><a href="./reports/main/latest/karate-summary.html">main / latest</a></li>
+            <li><a href="./reports/develop/latest/karate-summary.html">develop / latest</a></li>
+          </ul>
+          <p>Runs:</p>
+          <ul>
+            <li><a href="./reports/main/">main runs</a></li>
+            <li><a href="./reports/develop/">develop runs</a></li>
+          </ul>
+          HTML
+          touch payload/.nojekyll
+
+      # Publish into main/docs (GitHub Pages serves from here)
+      - name: Checkout main (pages target) into pages/
+        if: steps.have_reports.outputs.found == 'true'
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: pages
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Update main/docs with reports
+        if: steps.have_reports.outputs.found == 'true'
+        run: |
+          mkdir -p pages/docs
+          rsync -a payload/ pages/docs/
+          cd pages
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs
+          git commit -m "chore(reports): publish ${BRANCH_NAME} -> docs/${REPORTS_SUBDIR}/${RUN_DIR} [skip ci]" || echo "No changes to commit"
+          git push origin main
+
+      # Put direct links into the job summary
+      - name: Add links to job summary
+        if: steps.have_reports.outputs.found == 'true'
+        env:
+          BRANCH_NAME: ${{ env.BRANCH_NAME }}
+          RUN_ID: ${{ env.RUN_ID }}
+          OWNER: ${{ github.repository_owner }}
+          REPO: ${{ github.event.repository.name }}
+        run: |
+          BASE="https://${OWNER}.github.io/${REPO}"
+          {
+            echo "### Karate Reports"
+            echo ""
+            echo "- Latest (${BRANCH_NAME}): ${BASE}/reports/${BRANCH_NAME}/latest/karate-summary.html"
+            echo "- This run: ${BASE}/reports/${BRANCH_NAME}/run-${RUN_ID}/karate-summary.html"
+            echo "- Root index: ${BASE}/"
+          } >> "$GITHUB_STEP_SUMMARY"
