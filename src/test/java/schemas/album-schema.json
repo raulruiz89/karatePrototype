@@ -1,5 +1,5 @@
 {
     "userId": "#number",
     "id": "#number",
-    "title": "#string"
+    "title": "#number"
   }
