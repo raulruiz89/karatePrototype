@@ -26,70 +26,68 @@ The testing approach is divided into:
 
 ### 3.1 Objectives
 
-- Validate core logic of NMEA parsing and processing
-- Ensure checksum validation correctness
-- Validate configuration handling (JSON parsing)
-- Ensure proper data transformation and formatting
+- Validate core logic of NMEA parsing and processing.
+- Ensure checksum validation correctness.
+- Validate configuration handling through JSON files.
+- Ensure proper transformation and formatting of output data.
+- Validate GPS fix state interpretation.
+- Validate stale message and timeout detection logic.
 
 ---
 
 ### 3.2 Unit Test Cases
 
 #### UT-01: Validate NMEA Checksum
-
-- Description: Verify checksum validation logic
-- Input: Valid and invalid NMEA strings
-- Expected Result:
-  - Valid checksum → accepted
-  - Invalid checksum → rejected
+- Description: Verify checksum validation logic.
+- Expected Result: Valid accepted, invalid rejected.
 
 ---
 
-#### UT-02: Parse NMEA Sentence
-
-- Description: Validate parsing of NMEA sentences
-- Input: GGA, RMC sentences
-- Expected Result: Correct extraction of:
-  - Latitude
-  - Longitude
-  - Altitude
-  - Timestamp
+#### UT-02: Parse NMEA Sentences
+- Description: Validate parsing of GGA and RMC.
+- Expected Result: Correct extraction of GNSS data.
 
 ---
 
 #### UT-03: JSON Configuration Parsing
-
-- Description: Validate JSON configuration loading
-- Input: Valid/invalid JSON config file
-- Expected Result:
-  - Valid → configuration loaded
-  - Invalid → error handled
+- Description: Validate JSON config loading.
+- Expected Result: Valid loads, invalid fails.
 
 ---
 
 #### UT-04: Communication Mode Validation
-
-- Description: Ensure only one communication mode is active
-- Input: Config with multiple modes enabled
-- Expected Result: System rejects configuration
+- Description: Only one mode allowed.
+- Expected Result: Multi-mode rejected.
 
 ---
 
 #### UT-05: Data Formatting
-
-- Description: Validate formatted output data
-- Input: Parsed GNSS data
-- Expected Result: Proper structure for downstream systems
+- Description: Validate output transformation.
+- Expected Result: Correct structure and values.
 
 ---
 
 #### UT-06: Logging Trigger Logic
-
-- Description: Validate log generation triggers
-- Input: Simulated connection/disconnection events
-- Expected Result: Logs generated with correct timestamps
+- Description: Validate log events.
+- Expected Result: Correct logs generated.
 
 ---
+
+#### UT-07: GPS Fix Status Interpretation
+- Description: Validate GPS fix logic.
+- Expected Result:
+  - Valid fix detected
+  - Invalid/no fix detected
+  - Correct output state
+
+---
+
+#### UT-08: Stale Message Detection
+- Description: Validate stale/timeout logic.
+- Expected Result:
+  - Messages flagged as stale after timeout
+  - No-data condition detected
+  - No false positives
 
 ## 4. Automated Test Section (BDD - Gherkin)
 
