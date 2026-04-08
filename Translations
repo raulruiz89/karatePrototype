@@ -3,3 +3,9 @@ From my understanding, the Test Section of the SDD should primarily include the 
 What I propose is to include only three high-level test cases per test type. This would keep the SDD Test Section concise, and when it comes time to develop detailed test plans or specific test cases, I can follow or replicate the approach used in Storage Manager.
 
 What are your thoughts?
+
+-----
+
+I think we can keep them in the SDD, since they are defined at a very high level. I also agree with you—it seems they could be automated, including the test case labeled “no-data.”
+
+I’m considering using this same format for all three test types. What are your thoughts?
