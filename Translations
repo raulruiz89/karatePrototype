@@ -1,0 +1,5 @@
+From my understanding, the Test Section of the SDD should primarily include the types of tests, the testing strategy, and a minimal set of test cases. It’s possible that I added too many test cases or went into excessive detail for the SDD.
+
+What I propose is to include only three high-level test cases per test type. This would keep the SDD Test Section concise, and when it comes time to develop detailed test plans or specific test cases, I can follow or replicate the approach used in Storage Manager.
+
+What are your thoughts?
