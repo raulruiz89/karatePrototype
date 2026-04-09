@@ -9,3 +9,9 @@ What are your thoughts?
 I think we can keep them in the SDD, since they are defined at a very high level. I also agree with you—it seems they could be automated, including the test case labeled “no-data.”
 
 I’m considering using this same format for all three test types. What are your thoughts?
+
+I see. I initially thought the unit tests would be executed manually, following the principle of testing methods and/or functions in isolation.
+
+That said, automating them does not mean they stop being unit tests; however, they would no longer be “pure” unit tests in the sense of isolating functions using tools like GTest or GMock. Instead, they would resemble component- or system-level tests, since CATS brings up the full component in Docker, injects data via gpsfake or specific configurations, and validates the outputs.
+
+In other words, if the goal is to validate statement coverage, decision branches, and edge cases, those aspects would fall out of scope—or might simply not be covered under this approach, at least from my perspective.
