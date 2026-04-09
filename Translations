@@ -15,3 +15,10 @@ I see. I initially thought the unit tests would be executed manually, following 
 That said, automating them does not mean they stop being unit tests; however, they would no longer be “pure” unit tests in the sense of isolating functions using tools like GTest or GMock. Instead, they would resemble component- or system-level tests, since CATS brings up the full component in Docker, injects data via gpsfake or specific configurations, and validates the outputs.
 
 In other words, if the goal is to validate statement coverage, decision branches, and edge cases, those aspects would fall out of scope—or might simply not be covered under this approach, at least from my perspective.
+
+---
+That’s correct—they can be automated. The key question is: what scope will the unit tests have? Will they be executed inside or outside of CATS?
+
+If they are executed within CATS, it doesn’t really make sense to classify them as unit tests; they would be closer to system-level tests. Ultimately, unit tests should still be part of the software development process (at least in theory).
+
+My main concern is around the terminology—specifically, labeling them as “unit tests” or having a “unit test” section if they are actually being executed within Docker alongside CATS.
