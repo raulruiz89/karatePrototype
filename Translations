@@ -22,3 +22,7 @@ That’s correct—they can be automated. The key question is: what scope will t
 If they are executed within CATS, it doesn’t really make sense to classify them as unit tests; they would be closer to system-level tests. Ultimately, unit tests should still be part of the software development process (at least in theory).
 
 My main concern is around the terminology—specifically, labeling them as “unit tests” or having a “unit test” section if they are actually being executed within Docker alongside CATS.
+---
+Hi Fran, good morning. How are you? I wanted to let you know that I wasn’t able to log in to the laptop I received yesterday. I spoke with Gustavo, and he mentioned that the initial setup and user registration must be done through the client’s intranet or Wi-Fi network. I had assumed this had already been completed when the laptop was prepared.
+
+I’ve reached out to Christian Castillo, and we have a meeting scheduled today at 9:00 to figure out how to resolve this issue. As a result, I may miss the daily meeting.
