@@ -1,35 +1,348 @@
-PS C:\Users\aguilrr1> wsl --list -v
-  NAME            STATE           VERSION
-* Ubuntu-24.04    Stopped         2
-PS C:\Users\aguilrr1> wsl
-aguilrr1@UHC001681167:/mnt/c/Users/aguilrr1$ sudo apt update
-[sudo] password for aguilrr1:
-Ign:1 http://archive.ubuntu.com/ubuntu noble InRelease
-Ign:2 http://security.ubuntu.com/ubuntu noble-security InRelease
-Ign:3 http://archive.ubuntu.com/ubuntu noble-updates InRelease
-Ign:4 http://archive.ubuntu.com/ubuntu noble-backports InRelease
-Ign:1 http://archive.ubuntu.com/ubuntu noble InRelease
-Ign:2 http://security.ubuntu.com/ubuntu noble-security InRelease
-Ign:3 http://archive.ubuntu.com/ubuntu noble-updates InRelease
-Ign:4 http://archive.ubuntu.com/ubuntu noble-backports InRelease
-Ign:1 http://archive.ubuntu.com/ubuntu noble InRelease
-Ign:2 http://security.ubuntu.com/ubuntu noble-security InRelease
-Ign:3 http://archive.ubuntu.com/ubuntu noble-updates InRelease
-Ign:4 http://archive.ubuntu.com/ubuntu noble-backports InRelease
-Err:1 http://archive.ubuntu.com/ubuntu noble InRelease
-  Could not connect to proxy.cat.com:80 (10.55.1.66), connection timed out Could not connect to proxy.cat.com:80 (10.55.1.76), connection timed out Could not connect to proxy.cat.com:80 (10.55.1.82), connection timed out Could not connect to proxy.cat.com:80 (10.55.1.67), connection timed out Could not connect to proxy.cat.com:80 (172.18.10.251), connection timed out Could not connect to proxy.cat.com:80 (172.18.10.245), connection timed out Could not connect to proxy.cat.com:80 (172.18.46.233), connection timed out Could not connect to proxy.cat.com:80 (172.18.10.246), connection timed out Could not connect to proxy.cat.com:80 (10.55.1.83), connection timed out Could not connect to proxy.cat.com:80 (10.55.1.68), connection timed out
-Err:2 http://security.ubuntu.com/ubuntu noble-security InRelease
-  Could not connect to proxy.cat.com:80 (10.55.1.66), connection timed out Could not connect to proxy.cat.com:80 (10.55.1.76), connection timed out Could not connect to proxy.cat.com:80 (10.55.1.82), connection timed out Could not connect to proxy.cat.com:80 (10.55.1.67), connection timed out Could not connect to proxy.cat.com:80 (172.18.10.251), connection timed out Could not connect to proxy.cat.com:80 (172.18.10.245), connection timed out Could not connect to proxy.cat.com:80 (172.18.46.233), connection timed out Could not connect to proxy.cat.com:80 (172.18.10.246), connection timed out Could not connect to proxy.cat.com:80 (10.55.1.83), connection timed out Could not connect to proxy.cat.com:80 (10.55.1.68), connection timed out
-Err:3 http://archive.ubuntu.com/ubuntu noble-updates InRelease
-  Unable to connect to proxy.cat.com:80:
-Err:4 http://archive.ubuntu.com/ubuntu noble-backports InRelease
-  Unable to connect to proxy.cat.com:80:
-Reading package lists... Done
-Building dependency tree... Done
-Reading state information... Done
-All packages are up to date.
-W: Failed to fetch http://archive.ubuntu.com/ubuntu/dists/noble/InRelease  Could not connect to proxy.cat.com:80 (10.55.1.66), connection timed out Could not connect to proxy.cat.com:80 (10.55.1.76), connection timed out Could not connect to proxy.cat.com:80 (10.55.1.82), connection timed out Could not connect to proxy.cat.com:80 (10.55.1.67), connection timed out Could not connect to proxy.cat.com:80 (172.18.10.251), connection timed out Could not connect to proxy.cat.com:80 (172.18.10.245), connection timed out Could not connect to proxy.cat.com:80 (172.18.46.233), connection timed out Could not connect to proxy.cat.com:80 (172.18.10.246), connection timed out Could not connect to proxy.cat.com:80 (10.55.1.83), connection timed out Could not connect to proxy.cat.com:80 (10.55.1.68), connection timed out
-W: Failed to fetch http://archive.ubuntu.com/ubuntu/dists/noble-updates/InRelease  Unable to connect to proxy.cat.com:80:
-W: Failed to fetch http://archive.ubuntu.com/ubuntu/dists/noble-backports/InRelease  Unable to connect to proxy.cat.com:80:
-W: Failed to fetch http://security.ubuntu.com/ubuntu/dists/noble-security/InRelease  Could not connect to proxy.cat.com:80 (10.55.1.66), connection timed out Could not connect to proxy.cat.com:80 (10.55.1.76), connection timed out Could not connect to proxy.cat.com:80 (10.55.1.82), connection timed out Could not connect to proxy.cat.com:80 (10.55.1.67), connection timed out Could not connect to proxy.cat.com:80 (172.18.10.251), connection timed out Could not connect to proxy.cat.com:80 (172.18.10.245), connection timed out Could not connect to proxy.cat.com:80 (172.18.46.233), connection timed out Could not connect to proxy.cat.com:80 (172.18.10.246), connection timed out Could not connect to proxy.cat.com:80 (10.55.1.83), connection timed out Could not connect to proxy.cat.com:80 (10.55.1.68), connection timed out
-W: Some index files failed to download. They have been ignored, or old ones used instead.
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+###############################################################################
+# Copyright (C) Caterpillar Inc. All Rights Reserved.
+# Caterpillar: Confidential Yellow
+###############################################################################
+
+import json
+import os
+import socket
+import threading
+import time
+import logging
+from datetime import datetime, timezone
+
+logger = logging.getLogger(__name__)
+
+# How long to wait for gpsd to connect before giving up.
+_ACCEPT_TIMEOUT_S = 30
+# Poll interval when waiting for gpsd to connect.
+_ACCEPT_POLL_S = 0.5
+
+
+class CustomNmeaTcpServer:
+    """
+    TCP server that listens on a local port and streams NMEA sentences to the
+    first client that connects (expected: gpsd in outbound TCP mode).
+
+    Architecture:
+        test container                       dev container
+        ───────────────────────────          ──────────────────────────────
+        CustomNmeaTcpServer                   gpsd (active_connection=tcp)
+          172.16.102.1:15555   ◄───────────  dials tcp://172.16.102.1:15555
+                                              gpsd JSON API on :2947
+
+    gpsd runs on dev with ``active_connection=tcp`` and ``ip``/``port``
+    pointing at this server (172.16.102.1:15555 by default, matching TcpPort in
+    nmea_gnss_driver.xml). When PCM launches gpsd it dials out to this server,
+    which accepts the connection and then:
+
+      1. Sends a gpsd ``DEVICES`` announcement first, so gpsd registers the
+         device before any NMEA sentence arrives.
+      2. Streams the dataset once, batching every sentence that shares the same
+         UTC timestamp into a single group and waiting ``cycle`` seconds between
+         groups.
+      3. After the last sentence is sent, keeps the TCP connection open (no more
+         data) until stop() is called, so gpsd stays connected while the last
+         fix ages instead of going offline on socket close.
+
+    Usage::
+
+        server = CustomNmeaTcpServer(port=15555)
+        server.select_dataset("/path/to/data.nmea")
+        server.start()          # port is bound and listening immediately
+        # … wait for gpsd to connect and consume the dataset …
+        server.pause()          # optional: stop sending, keep the connection open
+        server.stop()
+    """
+
+    def __init__(self, port: int = 15555, bind_host: str = "172.16.102.1", cycle: float = 1.0):
+        """
+        Args:
+            port:       TCP port to bind and listen on. Should match the TcpPort
+                        value in the test system XML config (nmea_gnss_driver.xml),
+                        i.e. 15555.
+            bind_host:  Address to bind to. Defaults to 172.16.102.1, the test
+                        container address that gpsd dials out to.
+            cycle:      Delay in seconds between consecutive NMEA timestamp
+                        groups. All sentences sharing the same UTC time (e.g. a
+                        GGA/GSA/RMC triplet) are sent together, then the delay
+                        is applied before the next group. The dataset is streamed
+                        once (no looping).
+        """
+        self._port = port
+        self._bind_host = bind_host
+        self._cycle = cycle
+        self._dataset = None
+        self._thread = None
+        self._stop_event = threading.Event()
+        self._pause_event = threading.Event()
+        self._server_sock = None
+
+    @property
+    def port(self):
+        return self._port
+
+    @property
+    def is_running(self):
+        return self._thread is not None and self._thread.is_alive()
+
+    @property
+    def is_paused(self):
+        return self._pause_event.is_set()
+
+    def pause(self) -> None:
+        """
+        Stop streaming NMEA sentences while keeping the client TCP connection open.
+
+        gpsd stays connected (device remains online) but stops receiving fresh
+        fixes, so the task's data ages and eventually crosses the stale-data
+        threshold. This differs from stop(), which closes the socket and makes the
+        device go offline.
+        """
+        self._pause_event.set()
+        logger.info("NMEA streaming paused (TCP connection kept open).")
+
+    def resume(self) -> None:
+        """Resume streaming NMEA sentences after a pause()."""
+        self._pause_event.clear()
+        logger.info("NMEA streaming resumed.")
+
+    def select_dataset(self, dataset_path: str) -> None:
+        """
+        Select the NMEA dataset file to stream.
+
+        Raises:
+            FileNotFoundError: If the dataset file does not exist.
+            RuntimeError: If the server is already running.
+        """
+        if self.is_running:
+            raise RuntimeError("Cannot change dataset while server is running.")
+        if not os.path.isfile(dataset_path):
+            raise FileNotFoundError(f"Dataset not found: {dataset_path}")
+        self._dataset = os.path.abspath(dataset_path)
+        logger.info(f"Dataset selected: {self._dataset}")
+
+    def start(self) -> None:
+        """
+        Bind the server socket and start the background streaming thread.
+
+        The port is bound before this method returns, so callers can start the
+        AIS stack (which triggers gpsd to dial out) immediately after.
+
+        Raises:
+            RuntimeError: If already running or no dataset selected.
+        """
+        if self.is_running:
+            raise RuntimeError("NMEA TCP server is already running.")
+        if not self._dataset:
+            raise RuntimeError("No dataset selected. Call select_dataset() first.")
+
+        self._server_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self._server_sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        self._server_sock.bind((self._bind_host, self._port))
+        self._server_sock.listen(1)
+        self._server_sock.settimeout(_ACCEPT_POLL_S)
+
+        self._stop_event.clear()
+        self._thread = threading.Thread(
+            target=self._server_loop,
+            name="NmeaTcpServer",
+            daemon=True,
+        )
+        self._thread.start()
+        logger.info(f"NMEA TCP server listening on {self._bind_host}:{self._port}")
+
+    def stop(self) -> None:
+        """Stop the background thread and close the server socket."""
+        if not self.is_running:
+            logger.info("NMEA server is not running, nothing to stop.")
+            return
+        logger.info("Stopping NMEA TCP server...")
+        self._stop_event.set()
+        self._pause_event.clear()
+        if self._server_sock:
+            try:
+                self._server_sock.close()
+            except Exception:
+                pass
+            self._server_sock = None
+        self._thread.join(timeout=10)
+        self._thread = None
+        logger.info("NMEA TCP server stopped.")
+
+    def _server_loop(self) -> None:
+        """Background thread: wait for gpsd to connect, then stream NMEA."""
+        logger.info(f"Waiting for gpsd to connect on port {self._port} "
+                    f"(timeout {_ACCEPT_TIMEOUT_S}s)...")
+        deadline = time.monotonic() + _ACCEPT_TIMEOUT_S
+        client_sock = None
+
+        while not self._stop_event.is_set() and time.monotonic() < deadline:
+            try:
+                client_sock, addr = self._server_sock.accept()
+                logger.info(f"gpsd connected from {addr}")
+                break
+            except socket.timeout:
+                continue
+            except OSError:
+                return
+
+        if client_sock is None:
+            logger.error(
+                f"NMEA TCP server: gpsd did not connect within {_ACCEPT_TIMEOUT_S}s"
+            )
+            return
+
+        try:
+            with client_sock:
+                # Build the DEVICES announcement and insert it at the start of
+                # the NMEA dataset so it is streamed ahead of the sentences. The
+                # activated timestamp is built here so it reflects the moment
+                # gpsd actually connected, and the path uses the dynamic bind
+                # address and port.
+                devices_msg = self._build_devices_message()
+                self._prepend_devices_message_to_dataset(devices_msg)
+
+                # Stream the dataset exactly once: send each timestamp group
+                # (triplet), waiting self._cycle seconds between groups. As soon
+                # as the last sentence is sent, streaming stops (no looping).
+                try:
+                    for group in self._iter_timestamp_groups():
+                        if self._stop_event.is_set():
+                            break
+                        # Hold the connection open but stop sending while paused.
+                        while self._pause_event.is_set() and not self._stop_event.is_set():
+                            time.sleep(0.2)
+                        if self._stop_event.is_set():
+                            break
+                        payload = "".join(f"{line}\r\n" for line in group)
+                        try:
+                            client_sock.sendall(payload.encode("ascii", errors="replace"))
+                        except (BrokenPipeError, ConnectionResetError):
+                            logger.info("NMEA TCP server: client disconnected during streaming.")
+                            return
+                        except OSError as exc:
+                            logger.error(f"NMEA TCP server error while streaming: {exc}")
+                            return
+                        if self._cycle > 0:
+                            time.sleep(self._cycle)
+                finally:
+                    # The DEVICES announcement is streamed only once; restore the
+                    # dataset to its original content.
+                    self._remove_devices_message_from_dataset()
+
+                # Dataset fully sent once. Keep the TCP connection open (no more
+                # data) until stop() is called, so gpsd stays connected while the
+                # last fix ages instead of going offline on socket close.
+                logger.info("NMEA TCP server: dataset sent once, holding connection open.")
+                while not self._stop_event.is_set():
+                    time.sleep(0.2)
+                logger.info("NMEA TCP server streaming stopped.")
+        except OSError as exc:
+            logger.error(f"NMEA TCP server client socket error: {exc}")
+
+    def _build_devices_message(self) -> str:
+        """
+        Build the gpsd DEVICES announcement sent to the client before NMEA
+        streaming begins.
+
+        The device path is derived from the server's bind address and port, and
+        the activated timestamp is set to the current UTC time (ISO 8601 with
+        millisecond precision and a trailing 'Z'), so neither value is
+        hardcoded.
+        """
+        now = datetime.now(timezone.utc)
+        activated = now.strftime("%Y-%m-%dT%H:%M:%S.") + f"{now.microsecond // 1000:03d}Z"
+        message = {
+            "class": "DEVICES",
+            "devices": [
+                {
+                    "class": "DEVICE",
+                    "path": f"tcp://{self._bind_host}:{self._port}",
+                    "driver": "NMEA0183",
+                    "activated": activated,
+                    "flags": 1,
+                }
+            ],
+        }
+        return json.dumps(message, separators=(",", ":"))
+
+    def _prepend_devices_message_to_dataset(self, devices_msg: str) -> None:
+        """
+        Insert the DEVICES announcement as the first line of the selected NMEA
+        dataset so it is streamed ahead of the NMEA sentences.
+
+        Any DEVICES line left from a previous run is removed first so the
+        announcement is not duplicated.
+        """
+        with open(self._dataset, "r") as fh:
+            lines = [line for line in fh if '"class":"DEVICES"' not in line]
+        with open(self._dataset, "w") as fh:
+            fh.write(f"{devices_msg}\n")
+            fh.writelines(lines)
+        logger.info(f"DEVICES message prepended to dataset: {self._dataset}")
+
+    def _remove_devices_message_from_dataset(self) -> None:
+        """
+        Remove the DEVICES announcement previously inserted by
+        _prepend_devices_message_to_dataset so it is streamed only once (on the
+        first pass through the dataset).
+        """
+        with open(self._dataset, "r") as fh:
+            lines = [line for line in fh if '"class":"DEVICES"' not in line]
+        with open(self._dataset, "w") as fh:
+            fh.writelines(lines)
+
+    @staticmethod
+    def _extract_timestamp(sentence: str) -> str | None:
+        """
+        Return the UTC time field of an NMEA sentence, or None when the sentence
+        type does not carry one (e.g. GSA).
+        """
+        body = sentence.split("*", 1)[0]
+        fields = body.split(",")
+        if not fields or not fields[0]:
+            return None
+        msg_type = fields[0][-3:]
+        # Index of the UTC time field for the supported sentence types.
+        time_field_index = {
+            "GGA": 1,
+            "RMC": 1,
+            "GLL": 5,
+            "GST": 1,
+            "ZDA": 1,
+            "GNS": 1,
+            "GBS": 1,
+        }
+        idx = time_field_index.get(msg_type)
+        if idx is None or idx >= len(fields):
+            return None
+        return fields[idx] or None
+
+    def _iter_timestamp_groups(self):
+        """
+        Yield lists of NMEA sentences that share the same UTC timestamp.
+
+        Sentences without a timestamp (e.g. GSA) are attached to the current
+        group. A new group starts whenever a timestamped sentence reports a time
+        different from the current group's, so a GGA/GSA/RMC triplet is yielded
+        as a single unit.
+        """
+        current_group = []
+        current_ts = None
+        with open(self._dataset, "r") as fh:
+            for raw in fh:
+                line = raw.strip()
+                if not line or line.startswith("#"):
+                    continue
+                ts = self._extract_timestamp(line)
+                if ts is not None and current_group and ts != current_ts:
+                    yield current_group
+                    current_group = []
+                if ts is not None:
+                    current_ts = ts
+                current_group.append(line)
+        if current_group:
+            yield current_group
