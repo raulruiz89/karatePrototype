@@ -38,8 +38,9 @@ class CustomNmeaTcpServer:
     nmea_gnss_driver.xml). When PCM launches gpsd it dials out to this server,
     which accepts the connection and then:
 
-      1. Sends a gpsd ``DEVICES`` announcement directly through the socket.
-         The selected dataset is never modified.
+      1. Temporarily prepends a gpsd ``DEVICES`` announcement to the selected
+         dataset so it is streamed together with the first NMEA timestamp group.
+         The synthetic line is removed after streaming, including error paths.
       2. Streams the dataset once. Sentences sharing the same normalized UTC
          timestamp are treated as one group. A configurable delay is applied
          between sentences in a group, and ``cycle`` is applied only between
@@ -254,15 +255,16 @@ class CustomNmeaTcpServer:
         self._client_sock = None
 
     def _server_loop(self) -> None:
-        """Background thread: wait for gpsd, send DEVICES, then stream NMEA."""
+        """Background thread: wait for gpsd, then stream DEVICES and NMEA."""
+        devices_prepended = False
         try:
             self._accept_client()
             if self._stop_event.is_set() or self._client_sock is None:
                 return
 
             devices_msg = self._build_devices_message()
-            self._send_line(devices_msg)
-            logger.info("DEVICES announcement sent directly to gpsd.")
+            self._prepend_devices_message_to_dataset(devices_msg)
+            devices_prepended = True
 
             groups = iter(self._iter_timestamp_groups())
             try:
@@ -294,6 +296,17 @@ class CustomNmeaTcpServer:
             if not self._stop_event.is_set():
                 self._record_failure(exc)
         finally:
+            if devices_prepended:
+                try:
+                    self._remove_devices_message_from_dataset()
+                except BaseException as cleanup_exc:
+                    if not self._failed_event.is_set() and not self._stop_event.is_set():
+                        self._record_failure(cleanup_exc)
+                    else:
+                        logger.exception(
+                            "Failed to remove DEVICES announcement from dataset",
+                            exc_info=cleanup_exc,
+                        )
             self._close_socket("_client_sock")
             self._close_socket("_server_sock")
             self._stopped_event.set()
@@ -432,6 +445,41 @@ class CustomNmeaTcpServer:
             ],
         }
         return json.dumps(message, separators=(",", ":"))
+
+
+    def _prepend_devices_message_to_dataset(self, devices_msg: str) -> None:
+        """
+        Temporarily insert DEVICES as the first dataset line.
+
+        Existing synthetic DEVICES lines are removed first, preventing duplicate
+        announcements after an interrupted previous run. Because the grouping
+        logic keeps untimestamped leading lines with the first timestamped group,
+        DEVICES and the first NMEA epoch are streamed without a ``cycle`` delay.
+        """
+        if not self._dataset:
+            raise RuntimeError("No dataset selected.")
+
+        with open(self._dataset, "r", encoding="ascii", errors="strict") as fh:
+            lines = [line for line in fh if '"class":"DEVICES"' not in line]
+
+        with open(self._dataset, "w", encoding="ascii", errors="strict", newline="") as fh:
+            fh.write(f"{devices_msg}\n")
+            fh.writelines(lines)
+
+        logger.info("DEVICES announcement prepended to dataset: %s", self._dataset)
+
+    def _remove_devices_message_from_dataset(self) -> None:
+        """Remove the synthetic DEVICES line from the selected dataset."""
+        if not self._dataset:
+            return
+
+        with open(self._dataset, "r", encoding="ascii", errors="strict") as fh:
+            lines = [line for line in fh if '"class":"DEVICES"' not in line]
+
+        with open(self._dataset, "w", encoding="ascii", errors="strict", newline="") as fh:
+            fh.writelines(lines)
+
+        logger.info("DEVICES announcement removed from dataset: %s", self._dataset)
 
     @staticmethod
     def _extract_timestamp(sentence: str) -> Optional[int]:
