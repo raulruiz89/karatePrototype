@@ -1,47 +1,98 @@
-En resumen: libera todos los recursos (TCP server, NATS, AIS stack), resetea el estado del actor y es el punto donde se consolida el resultado de las validaciones soft del escenario.
+# ── SP-05 UTC date source prioritization ──────────────────────────────────
+# RMC date: 2026-07-15
+# ZDA date: 2026-07-16
+# Common UTC time: 15:00:00.000Z
+#
+# Expected behavior used by this characterization test:
+# the last valid sentence received for the epoch determines the final UTC date.
+
+@after_scenario.actor.ScsAllInterfacesActor.cleanup
+Scenario: SP-05 uses ZDA date when RMC is followed by ZDA
+    Given gpsd_config_valid_tcp_connection.json file
+    And TCP server attempts to stream dataset sp_time_rmc_then_zda.nmea
+    When the NMEA adapter task publishes all SCS interfaces
+
+    # ── FR-5.1 SensorNavSatFixIntf ────────────────────────────────────────
+    Then NavSatFix latitude should be 20.5070583333 degrees
+    And NavSatFix longitude should be -100.4032916667 degrees
+    And NavSatFix altitude should be 1892.0 meters
+    And NavSatFix should indicate a position fix status
+    And NavSatFix timestamp should be present in UTC format
+    And NavSatFix timestamp should be 1784214000.0
+    And NavSatFix timestamp should represent 2026-07-16T15:00:00.000Z
+
+    # ── FR-5.2 PositioningGnssStatusIntf ─────────────────────────────────
+    And GnssStatus should report a valid calc_mode
+    And GnssStatus should report 10 satellites used
+    And GnssStatus should report at least 10 satellites visible
+    And GnssStatus HDOP should be 0.8
+    And GnssStatus PDOP should be 1.2
+    And GnssStatus VDOP should be 0.9
+    And GnssStatus error_ellipse_semi_major should be 0.018 meters
+    And GnssStatus error_ellipse_semi_minor should be 0.013 meters
+    And GnssStatus error_ellipse_orientation should be 42.0 grades
+    And GnssStatus vertical accuracy should be 2.8 meters
+    And GnssStatus horizontal accuracy should be 3.8 meters
+
+    # ── FR-5.3 GPSTimeOutput ──────────────────────────────────────────────
+    And GPSTime timestamp should be a valid UTC epoch
+    And the GPSTime timestamp should be 1784214000.0
+    And the GPSTime should represent 2026-07-16T15:00:00.000Z
+    And GPSTime time_sync_status should indicate synchronized
+    And GPSTime pps_count should be non-negative
+
+    # ── FR-5.4 NavOdometryIntf ────────────────────────────────────────────
+    And Odometry header frame ID should be valid
+    And Odometry position should be zero
+    And Odometry orientation should represent a true heading of 301.2 degrees
+    And Odometry linear velocity x should be 20.835 m/s
+    And Odometry linear velocity y should be 0 m/s
+    And Odometry linear velocity z should be unavailable
+    And Odometry angular velocity should be zero
+    And Odometry twist covariance should contain 36 elements
 
 
-# ── All SCS output interfaces ─────────────────────────────────────────────
+@after_scenario.actor.ScsAllInterfacesActor.cleanup
+Scenario: SP-05 uses RMC date when ZDA is followed by RMC
+    Given gpsd_config_valid_tcp_connection.json file
+    And TCP server attempts to stream dataset sp_time_zda_then_rmc.nmea
+    When the NMEA adapter task publishes all SCS interfaces
 
-    @after_scenario.actor.ScsAllInterfacesActor.cleanup
-    Scenario: All SCS interfaces produce valid output from a single NMEA stream
-        Given gpsd_config_valid_tcp_connection.json file
-        And TCP server attempts to stream dataset valid_3d_dgps_fix.nmea
-        When the NMEA adapter task publishes all SCS interfaces
+    # ── FR-5.1 SensorNavSatFixIntf ────────────────────────────────────────
+    Then NavSatFix latitude should be 20.5070583333 degrees
+    And NavSatFix longitude should be -100.4032916667 degrees
+    And NavSatFix altitude should be 1892.0 meters
+    And NavSatFix should indicate a position fix status
+    And NavSatFix timestamp should be present in UTC format
+    And NavSatFix timestamp should be 1784127600.0
+    And NavSatFix timestamp should represent 2026-07-15T15:00:00.000Z
 
-        # ── FR-5.1 SensorNavSatFixIntf ────────────────────────────────────────
-        Then NavSatFix latitude should be 20.5070583333 degrees
-        And NavSatFix longitude should be -100.4032916667 degrees
-        And NavSatFix altitude should be 1892.0 meters
-        And NavSatFix should indicate a position fix status
-        And NavSatFix timestamp should be present in UTC format
+    # ── FR-5.2 PositioningGnssStatusIntf ─────────────────────────────────
+    And GnssStatus should report a valid calc_mode
+    And GnssStatus should report 10 satellites used
+    And GnssStatus should report at least 10 satellites visible
+    And GnssStatus HDOP should be 0.8
+    And GnssStatus PDOP should be 1.2
+    And GnssStatus VDOP should be 0.9
+    And GnssStatus error_ellipse_semi_major should be 0.018 meters
+    And GnssStatus error_ellipse_semi_minor should be 0.013 meters
+    And GnssStatus error_ellipse_orientation should be 42.0 grades
+    And GnssStatus vertical accuracy should be 2.8 meters
+    And GnssStatus horizontal accuracy should be 3.8 meters
 
-        # ── FR-5.2 PositioningGnssStatusIntf ─────────────────────────────────
-        And GnssStatus should report a valid calc_mode
-        And GnssStatus should report 10 satellites used
-        And GnssStatus should report at least 10 satellites visible
-        And GnssStatus HDOP should be 0.8
-        And GnssStatus PDOP should be 1.2
-        And GnssStatus VDOP should be 0.9
-        And GnssStatus error_ellipse_semi_major should be 0.018 meters
-        And GnssStatus error_ellipse_semi_minor should be 0.013 meters
-        And GnssStatus error_ellipse_orientation should be 42.0 grades
-        And GnssStatus vertical accuracy should be 2.8 meters
-        And GnssStatus horizontal accuracy should be 3.8 meters
+    # ── FR-5.3 GPSTimeOutput ──────────────────────────────────────────────
+    And GPSTime timestamp should be a valid UTC epoch
+    And the GPSTime timestamp should be 1784127600.0
+    And the GPSTime should represent 2026-07-15T15:00:00.000Z
+    And GPSTime time_sync_status should indicate synchronized
+    And GPSTime pps_count should be non-negative
 
-        # ── FR-5.3 GPSTimeOutput ──────────────────────────────────────────────
-        And GPSTime timestamp should be a valid UTC epoch
-        And the GPSTime timestamp should be 1784127600.0
-        And the GPSTime should represent 2026-07-15T15:00:00.000Z
-        And GPSTime time_sync_status should indicate synchronized
-        And GPSTime pps_count should be non-negative
-
-        # ── FR-5.4 NavOdometryIntf ────────────────────────────────────────────
-        And Odometry header frame ID should be valid
-        And Odometry position should be zero
-        And Odometry orientation should represent a true heading of 301.2 degrees
-        And Odometry linear velocity x should be 20.835 m/s
-        And Odometry linear velocity y should be 0 m/s
-        And Odometry linear velocity z should be unavailable
-        And Odometry angular velocity should be zero
-        And Odometry twist covariance should contain 36 elements
+    # ── FR-5.4 NavOdometryIntf ────────────────────────────────────────────
+    And Odometry header frame ID should be valid
+    And Odometry position should be zero
+    And Odometry orientation should represent a true heading of 301.2 degrees
+    And Odometry linear velocity x should be 20.835 m/s
+    And Odometry linear velocity y should be 0 m/s
+    And Odometry linear velocity z should be unavailable
+    And Odometry angular velocity should be zero
+    And Odometry twist covariance should contain 36 elements
